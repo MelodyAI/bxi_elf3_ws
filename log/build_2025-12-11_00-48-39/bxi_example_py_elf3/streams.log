@@ -1,0 +1,100 @@
+[0.346s] Invoking command in '/home/szz/bxi/bxi_elf3_ws/src/bxi_example_py_elf3': PYTHONPATH=/home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/bxi_example_py_elf3 build --build-base /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build install --record /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/install.log --single-version-externally-managed install_data
+[0.479s] running egg_info
+[0.479s] creating ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info
+[0.479s] writing ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/PKG-INFO
+[0.479s] writing dependency_links to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/dependency_links.txt
+[0.480s] writing entry points to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/entry_points.txt
+[0.480s] writing requirements to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/requires.txt
+[0.480s] writing top-level names to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/top_level.txt
+[0.480s] writing manifest file '../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/SOURCES.txt'
+[0.481s] reading manifest file '../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/SOURCES.txt'
+[0.481s] writing manifest file '../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/SOURCES.txt'
+[0.481s] running build
+[0.481s] running build_py
+[0.481s] creating /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build
+[0.481s] creating /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib
+[0.481s] creating /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/bxi_example.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/deploy_real4bydmimic copy.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/__init__.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/bxi_example_walk.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/deploy_mujoco_elf3_no.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/bxi_example_run.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] copying bxi_example_py_elf3/bxi_example_dance.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+[0.482s] running install
+[0.482s] running install_lib
+[0.482s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.482s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.482s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/deploy_real4bydmimic copy.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.482s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/__init__.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.482s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_walk.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.482s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/deploy_mujoco_elf3_no.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.483s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_run.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.483s] copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_dance.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+[0.483s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example.py to bxi_example.cpython-310.pyc
+[0.486s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/deploy_real4bydmimic copy.py to deploy_real4bydmimic copy.cpython-310.pyc
+[0.487s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/__init__.py to __init__.cpython-310.pyc
+[0.487s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_walk.py to bxi_example_walk.cpython-310.pyc
+[0.489s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/deploy_mujoco_elf3_no.py to deploy_mujoco_elf3_no.cpython-310.pyc
+[0.490s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_run.py to bxi_example_run.cpython-310.pyc
+[0.491s] byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_dance.py to bxi_example_dance.cpython-310.pyc
+[0.493s] running install_data
+[0.493s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/ament_index
+[0.493s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/ament_index/resource_index
+[0.493s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/ament_index/resource_index/packages
+[0.493s] copying resource/bxi_example_py_elf3 -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/ament_index/resource_index/packages
+[0.493s] copying package.xml -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3
+[0.493s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy
+[0.493s] copying policy/elf3_bg.xml -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/.
+[0.493s] copying policy/elf3.xml -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/.
+[0.493s] copying policy/model_run.onnx -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/.
+[0.495s] copying policy/model_walk.onnx -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/.
+[0.495s] copying policy/jojo.npz -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/.
+[0.500s] copying policy/jojo.onnx -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/.
+[0.503s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.503s] copying policy/meshes/l_ankle_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.504s] copying policy/meshes/r_wrist_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.504s] copying policy/meshes/l_hip_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.505s] copying policy/meshes/torso_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.508s] copying policy/meshes/l_wrist_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.509s] copying policy/meshes/l_shoulder_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.509s] copying policy/meshes/r_elbow_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.509s] copying policy/meshes/r_ankle_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.510s] copying policy/meshes/l_elbow_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.510s] copying policy/meshes/waist_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.510s] copying policy/meshes/r_hip_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.511s] copying policy/meshes/r_shoulder_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.511s] copying policy/meshes/r_ankle_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.511s] copying policy/meshes/l_wrist_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.511s] copying policy/meshes/r_shoulder_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.512s] copying policy/meshes/r_shoulder_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.513s] copying policy/meshes/l_hip_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.513s] copying policy/meshes/waist_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.513s] copying policy/meshes/l_hip_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.514s] copying policy/meshes/r_hip_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.514s] copying policy/meshes/l_shoulder_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.515s] copying policy/meshes/r_knee_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.517s] copying policy/meshes/l_wrist_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.519s] copying policy/meshes/waist_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.521s] copying policy/meshes/r_hip_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.522s] copying policy/meshes/r_wrist_z_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.522s] copying policy/meshes/r_wrist_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.523s] copying policy/meshes/l_knee_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.525s] copying policy/meshes/l_shoulder_x_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.525s] copying policy/meshes/l_ankle_y_link.STL -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/policy/meshes
+[0.525s] creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch
+[0.525s] copying launch/example_launch_hw.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.525s] copying launch/example_launch_walk.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.525s] copying launch/example_launch_dance.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.525s] copying launch/example_launch_run_hw.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.525s] copying launch/example_launch_walk_hw.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.525s] copying launch/example_launch_run.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.525s] running install_egg_info
+[0.526s] Copying ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3-0.0.0-py3.10.egg-info
+[0.527s] running install_scripts
+[0.539s] Installing bxi_example_py_elf3 script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.539s] Installing bxi_example_py_elf3_dance script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.539s] Installing bxi_example_py_elf3_run script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.539s] Installing bxi_example_py_elf3_walk script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.539s] writing list of installed files to '/home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/install.log'
+[0.557s] Invoked command in '/home/szz/bxi/bxi_elf3_ws/src/bxi_example_py_elf3' returned '0': PYTHONPATH=/home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/bxi_example_py_elf3 build --build-base /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build install --record /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/install.log --single-version-externally-managed install_data

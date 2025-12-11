@@ -1,0 +1,6 @@
+[console_scripts]
+bxi_example_py_elf3 = bxi_example_py_elf3.bxi_example:main
+bxi_example_py_elf3_dance = bxi_example_py_elf3.bxi_example_dance:main
+bxi_example_py_elf3_run = bxi_example_py_elf3.bxi_example_run:main
+bxi_example_py_elf3_walk = bxi_example_py_elf3.bxi_example_walk:main
+

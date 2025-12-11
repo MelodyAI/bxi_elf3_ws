@@ -1,0 +1,25 @@
+[0.365s] Invoking command in '/home/szz/bxi/bxi_elf3_ws/src/bxi_example_py_elf3': PYTHONPATH=/home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/bxi_example_py_elf3 build --build-base /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build install --record /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/install.log --single-version-externally-managed install_data
+[0.511s] running egg_info
+[0.511s] writing ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/PKG-INFO
+[0.512s] writing dependency_links to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/dependency_links.txt
+[0.512s] writing entry points to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/entry_points.txt
+[0.512s] writing requirements to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/requires.txt
+[0.512s] writing top-level names to ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/top_level.txt
+[0.514s] reading manifest file '../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/SOURCES.txt'
+[0.514s] writing manifest file '../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/SOURCES.txt'
+[0.514s] running build
+[0.515s] running build_py
+[0.515s] running install
+[0.515s] running install_lib
+[0.516s] running install_data
+[0.517s] copying launch/example_launch_dance_hw.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/share/bxi_example_py_elf3/launch/.
+[0.517s] running install_egg_info
+[0.519s] removing '/home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3-0.0.0-py3.10.egg-info' (and everything under it)
+[0.519s] Copying ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3-0.0.0-py3.10.egg-info
+[0.520s] running install_scripts
+[0.534s] Installing bxi_example_py_elf3 script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.534s] Installing bxi_example_py_elf3_dance script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.535s] Installing bxi_example_py_elf3_run script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.535s] Installing bxi_example_py_elf3_walk script to /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/bxi_example_py_elf3
+[0.535s] writing list of installed files to '/home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/install.log'
+[0.552s] Invoked command in '/home/szz/bxi/bxi_elf3_ws/src/bxi_example_py_elf3' returned '0': PYTHONPATH=/home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/bxi_example_py_elf3 build --build-base /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build install --record /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/install.log --single-version-externally-managed install_data
