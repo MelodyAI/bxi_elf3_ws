@@ -1,0 +1,5 @@
+  File "/home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_dance.py", line 111
+    -0.03730002, -0.02687607, -0.19142722 0.43117728 -0.1995317,  0.0162572,
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+

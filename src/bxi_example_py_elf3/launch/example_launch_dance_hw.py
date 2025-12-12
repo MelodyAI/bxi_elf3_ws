@@ -28,8 +28,8 @@ def generate_launch_description():
 
             Node(
                 package="bxi_example_py_elf3",
-                executable="bxi_example_py_elf3_run",
-                name="bxi_example_py_elf3_run",
+                executable="bxi_example_py_elf3_dance",
+                name="bxi_example_py_elf3_dance",
                 output="screen",
                 parameters=[
                     {"/topic_prefix": "hardware/"},
