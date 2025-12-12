@@ -4,14 +4,21 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+import json
 
 def generate_launch_description():
 
-    npz_file_name = "policy/jojo.npz"
-    npz_file = os.path.join(get_package_share_path("bxi_example_py_elf3"), npz_file_name)
-
-    onnx_file_name = "policy/jojo.onnx"
-    onnx_file = os.path.join(get_package_share_path("bxi_example_py_elf3"), onnx_file_name)
+    npz_file_dict = {
+        "jojo": "policy/jojo.npz",
+    }
+    onnx_file_dict = {
+        "jojo": "policy/jojo.onnx",
+    }
+    
+    for key, value in npz_file_dict.items():
+        npz_file_dict[key] = os.path.join(get_package_share_path("bxi_example_py_elf3"), value)
+    for key, value in onnx_file_dict.items():
+        onnx_file_dict[key] = os.path.join(get_package_share_path("bxi_example_py_elf3"), value)
 
     return LaunchDescription(
         [
@@ -33,8 +40,8 @@ def generate_launch_description():
                 output="screen",
                 parameters=[
                     {"/topic_prefix": "hardware/"},
-                    {"/npz_file": npz_file},
-                    {"/onnx_file": onnx_file},
+                    {"/npz_file": json.dumps(npz_file_dict)},
+                    {"/onnx_file": json.dumps(onnx_file_dict)},
                 ],
                 emulate_tty=True,
                 arguments=[("__log_level:=debug")],
