@@ -13,25 +13,22 @@ running build_py
 creating /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build
 creating /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib
 creating /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
-copying bxi_example_py_elf3/bxi_example_dance copy.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
+copying bxi_example_py_elf3/bxi_example.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
 copying bxi_example_py_elf3/__init__.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
 copying bxi_example_py_elf3/bxi_example_walk.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
-copying bxi_example_py_elf3/deploy_mujoco_elf3_no.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
 copying bxi_example_py_elf3/bxi_example_run.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
 copying bxi_example_py_elf3/bxi_example_dance.py -> /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3
 running install
 running install_lib
 creating /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
-copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_dance copy.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
+copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
 copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/__init__.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
 copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_walk.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
-copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/deploy_mujoco_elf3_no.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
 copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_run.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
 copying /home/szz/bxi/bxi_elf3_ws/build/bxi_example_py_elf3/build/lib/bxi_example_py_elf3/bxi_example_dance.py -> /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3
-byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_dance copy.py to bxi_example_dance copy.cpython-310.pyc
+byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example.py to bxi_example.cpython-310.pyc
 byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/__init__.py to __init__.cpython-310.pyc
 byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_walk.py to bxi_example_walk.cpython-310.pyc
-byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/deploy_mujoco_elf3_no.py to deploy_mujoco_elf3_no.cpython-310.pyc
 byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_run.py to bxi_example_run.cpython-310.pyc
 byte-compiling /home/szz/bxi/bxi_elf3_ws/install/bxi_example_py_elf3/lib/python3.10/site-packages/bxi_example_py_elf3/bxi_example_dance.py to bxi_example_dance.cpython-310.pyc
 running install_data

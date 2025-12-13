@@ -30,9 +30,7 @@ dof_num = 29
 
 dof_use = 29#26
 
-num_actions = 29 #
-
-num_obs = 154 #154
+# num_actions = 29 #
 
 joint_name = (
     "waist_y_joint",
@@ -106,7 +104,7 @@ joint_kd = np.array([  # 奔跑的关节kd，和joint_name顺序一一对应
 class DanceMotionPolicy:
     """舞蹈动作策略管理类"""
     
-    def __init__(self, motion_npz_path: str, model_onnx_path: str):
+    def __init__(self, motion_npz_path: str, model_onnx_path: str, joint_name):
         """
         初始化舞蹈动作策略
         
@@ -116,7 +114,7 @@ class DanceMotionPolicy:
             
         Use:
             ##1.初始化模型
-            self.dance_policy = DanceMotionPolicy("path/to/motion.npz", "path/to/model.onnx")
+            self.dance_policy = DanceMotionPolicy("path/to/motion.npz", "path/to/model.onnx", joint_name)
             
             ##2.前两个时间步计算初始转换矩阵
             if self.dance_policy.timestep < 2:
@@ -129,6 +127,11 @@ class DanceMotionPolicy:
                 ##4.推理动作
                 self.target_dof_pos = self.dance_policy.inference_step(self.obs_input, self.dance_policy.timestep)
         """
+        self.num_obs = 154 #带位姿估计160
+        
+        self.num_actions = len(joint_name)
+        
+        self.joint_name = joint_name
         
         self.motion_npz_path = motion_npz_path
         
@@ -154,15 +157,15 @@ class DanceMotionPolicy:
                 self.joint_seq = prop.value.split(",")
             if prop.key == "default_joint_pos":   
                 self.joint_pos_array_seq = np.array([float(x) for x in prop.value.split(",")])
-                self.joint_pos_array = np.array([self.joint_pos_array_seq[self.joint_seq.index(joint)] for joint in joint_name])
+                self.joint_pos_array = np.array([self.joint_pos_array_seq[self.joint_seq.index(joint)] for joint in self.joint_name])
 
             if prop.key == "joint_stiffness":
                 self.stiffness_array_seq = np.array([float(x) for x in prop.value.split(",")])
-                self.stiffness_array = np.array([self.stiffness_array_seq[self.joint_seq.index(joint)] for joint in joint_name])
+                self.stiffness_array = np.array([self.stiffness_array_seq[self.joint_seq.index(joint)] for joint in self.joint_name])
                 
             if prop.key == "joint_damping":
                 self.damping_array_seq = np.array([float(x) for x in prop.value.split(",")])
-                self.damping_array = np.array([self.damping_array_seq[self.joint_seq.index(joint)] for joint in joint_name])        
+                self.damping_array = np.array([self.damping_array_seq[self.joint_seq.index(joint)] for joint in self.joint_name])        
             
             if prop.key == "action_scale":
                 self.action_scale = np.array([float(x) for x in prop.value.split(",")])
@@ -199,10 +202,10 @@ class DanceMotionPolicy:
         #模型测试
         print("policy test start!!!")
         self.timestep = 0
-        self.obs = np.zeros(num_obs, dtype=np.float32)
+        self.obs = np.zeros(self.num_obs, dtype=np.float32)
         self.obs_input = self.obs.reshape(1, -1).astype(np.float32) # 将obs从(154,)变成(1,154)并确保数据类型
         self.inference_step(self.obs_input , self.timestep)# 预推理一次
-        self.action_buffer = np.zeros((num_actions,), dtype=np.float32)
+        self.action_buffer = np.zeros((self.num_actions,), dtype=np.float32)
         print("policy test finished!!!")
 
     # 循环推理部分（极速版）
@@ -216,7 +219,7 @@ class DanceMotionPolicy:
         
         self.target_dof_pos = self.action * self.action_scale + self.joint_pos_array_seq
         self.target_dof_pos = self.target_dof_pos.reshape(-1,)
-        self.target_dof_pos = np.array([self.target_dof_pos[self.joint_seq.index(joint)] for joint in joint_name])
+        self.target_dof_pos = np.array([self.target_dof_pos[self.joint_seq.index(joint)] for joint in self.joint_name])
         # 极简推理（比原版快5-15%）
         return self.target_dof_pos
 
@@ -255,15 +258,15 @@ class DanceMotionPolicy:
         self.obs[offset:offset + 3] = omega 
         
         offset += 3
-        qpos_seq = np.array([q[joint_name.index(joint)] for joint in self.joint_seq])
-        self.obs[offset:offset + num_actions] = qpos_seq - self.joint_pos_array_seq  # joint positions
+        qpos_seq = np.array([q[self.joint_name.index(joint)] for joint in self.joint_seq])
+        self.obs[offset:offset + self.num_actions] = qpos_seq - self.joint_pos_array_seq  # joint positions
         
-        offset += num_actions
-        qvel_seq = np.array([dq[joint_name.index(joint)] for joint in self.joint_seq])
-        self.obs[offset:offset + num_actions] = qvel_seq  # joint velocities
+        offset += self.num_actions
+        qvel_seq = np.array([dq[self.joint_name.index(joint)] for joint in self.joint_seq])
+        self.obs[offset:offset + self.num_actions] = qvel_seq  # joint velocities
         
-        offset += num_actions   
-        self.obs[offset:offset + num_actions] = self.action_buffer
+        offset += self.num_actions   
+        self.obs[offset:offset + self.num_actions] = self.action_buffer
         
         self.obs_input = self.obs.reshape(1, -1).astype(np.float32) # 将obs从(154,)变成(1,154)并确保数据类型
         
@@ -380,6 +383,17 @@ class DanceMotionPolicy:
         
         return np.array([w, x, y, z])
 
+class robotState:
+    stand = 1
+    stand_to_motion = 2
+    motion = 3
+    motion_to_stand = 4
+
+class motionType:
+    high_jump = 1
+    far_jump = 2
+    dance = 3
+
 class BxiExample(Node):
     
     def __init__(self):
@@ -423,19 +437,130 @@ class BxiExample(Node):
         self.lock_in = Lock()
         self.lock_ou = self.lock_in #Lock()
 
-        self.qpos = np.zeros(num_actions,dtype=np.double)
-        self.qvel = np.zeros(num_actions,dtype=np.double)
+        self.qpos = np.zeros(dof_num,dtype=np.double)
+        self.qvel = np.zeros(dof_num,dtype=np.double)
         self.omega = np.zeros(3,dtype=np.double)
         self.quat = np.zeros(4,dtype=np.double)
         
-        self.dance_jojo = DanceMotionPolicy(self.npz_file_dict["jojo"], self.onnx_file_dict["jojo"])
+        self.dance_jojo = DanceMotionPolicy(self.npz_file_dict["jojo"], self.onnx_file_dict["jojo"], joint_name)
 
+        # 状态机相关变量
+        self.stand_to_motion_counter = None
+        self.motion_to_stand_counter = None
+        self.state = robotState.stand
+        self.motion_type = None
+        
         self.step = 0
         self.loop_count = 0
         self.dt = 0.01  # loop @100Hz
         # self.dt = 0.02  # loop 模型时间1/dt=50Hz
         self.timer = self.create_timer(self.dt, self.timer_callback, callback_group=self.timer_callback_group_1)
     
+    def state_machine(self):
+        "状态机"
+        if self.state==robotState.stand:
+            if self.high_jump_btn_changed:
+                # 进入跳跃准备状态
+                self.state = robotState.stand_to_motion
+                upper_body_current = self.qpos[index_isaac_in_mujoco_23_upper_body]
+                upper_body_target = joint_info_23.high_jump_ref_pos_upper_body
+                self.stand_to_motion_counter = recoverCounter(2.0/self.loop_dt, upper_body_current, upper_body_target)
+                self.motion_type = motionType.high_jump
+                print("state: stand_to_motion [high jump]")
+            if self.far_jump_btn_changed:
+                # 进入跳跃准备状态
+                self.state = robotState.stand_to_motion
+                upper_body_current = self.qpos[index_isaac_in_mujoco_23_upper_body]
+                upper_body_target = joint_info_23.far_jump_ref_pos_upper_body
+                self.stand_to_motion_counter = recoverCounter(2.0/self.loop_dt, upper_body_current, upper_body_target)
+                self.motion_type = motionType.far_jump
+                print("state: stand_to_motion [far jump]")
+            if self.dance_btn_changed:
+                # 进入跳跃准备状态
+                self.state = robotState.stand_to_motion
+                upper_body_current = self.qpos[index_isaac_in_mujoco_23_upper_body]
+                upper_body_target = joint_info_23.dance_ref_pos_upper_body
+                self.stand_to_motion_counter = recoverCounter(2.0/self.loop_dt, upper_body_current, upper_body_target)
+                self.motion_type = motionType.dance
+                self.dance_agent.reset()
+                self.dance_agent.motion_playing = False
+                print("state: stand_to_motion [dance]")
+            
+        elif self.state==robotState.stand_to_motion:
+            self.stand_to_motion_counter.step()
+            if self.stand_to_motion_counter.finished:
+                self.state=robotState.motion
+                self.stand_to_motion_counter = None
+                if self.motion_type == motionType.high_jump:
+                    self.high_jump_agent.reset()
+                    self.high_jump_agent.motion_playing = True # 进入蹲的姿势以后等待按键再跳
+                    print("state: motion [high jump]")
+                if self.motion_type == motionType.far_jump:
+                    self.far_jump_agent.reset()
+                    self.far_jump_agent.motion_playing = True
+                    print("state: motion [far jump]")
+                if self.motion_type == motionType.dance:
+                    self.dance_agent.motion_playing = True
+                    print("state: motion [dance]")
+
+        elif self.state==robotState.motion:
+            if self.motion_type == motionType.high_jump:
+                # 模式一 自动退出
+                # if not self.high_jump_agent.motion_playing:
+                #     self.stop_btn_changed = False
+                #     self.state=robotState.motion_to_stand
+                #     upper_body_current = self.qpos
+                #     upper_body_target = joint_nominal_pos
+                #     self.motion_to_stand_counter = recoverCounter(2.0/self.loop_dt, upper_body_current, upper_body_target)
+                #     self.walk_agent.reset()
+                #     print("state: motion_to_stand")
+                # 模式二 在蹲的姿态保持 不自动退出
+                if self.high_jump_btn_changed:
+                    # 结束了之后不返回站立 连续跳
+                    self.high_jump_btn_changed = False
+                    # self.high_jump_agent.reset() # 不reset好一点
+                    self.high_jump_agent.agent_count = 0.3 / self.high_jump_agent.motion_time_increment
+                    self.high_jump_agent.motion_playing = True
+                    print("state: motion [jump]")
+                if self.stop_btn_changed:
+                    # 手动退出
+                    self.stop_btn_changed = False
+                    self.state=robotState.motion_to_stand
+                    upper_body_current = self.qpos
+                    upper_body_target = joint_nominal_pos
+                    self.motion_to_stand_counter = recoverCounter(2.0/self.loop_dt, upper_body_current, upper_body_target)
+                    self.walk_agent.reset()
+                    print("state: motion_to_stand")
+            if self.motion_type == motionType.far_jump:
+                if not self.far_jump_agent.motion_playing:
+                    self.stop_btn_changed = False
+                    self.state=robotState.motion_to_stand
+                    upper_body_current = self.qpos
+                    upper_body_target = joint_nominal_pos
+                    self.motion_to_stand_counter = recoverCounter(1.0/self.loop_dt, upper_body_current, upper_body_target)
+                    self.walk_agent.reset()
+                    print("state: motion_to_stand")
+            if self.motion_type == motionType.dance:
+                if (not self.dance_agent.motion_playing) or self.stop_btn_changed:
+                    self.stop_btn_changed = False
+                    self.state=robotState.motion_to_stand
+                    upper_body_current = self.qpos
+                    upper_body_target = joint_nominal_pos
+                    self.motion_to_stand_counter = recoverCounter(2.0/self.loop_dt, upper_body_current, upper_body_target)
+                    self.walk_agent.reset()
+                    print("state: motion_to_stand")
+
+        elif(self.state==robotState.motion_to_stand):
+            self.motion_to_stand_counter.step()
+            if self.motion_to_stand_counter.finished:
+                self.state=robotState.stand
+                self.motion_to_stand_counter = None
+                print("state: stand")
+  
+        else:
+            #其他状态机情况
+            raise Exception
+
     def timer_callback(self):
         # ptyhon 与 rclpy 多线程不太友好，这里使用定时间+简易状态机运行a
         if self.step == 0:
@@ -455,23 +580,12 @@ class BxiExample(Node):
             soft_start = self.loop_count/(3./self.dt) # 3秒关节缓启动
             if soft_start > 1:
                 soft_start = 1
-                
+            #软启动到舞蹈动作的第一帧    
             soft_joint_kp = joint_kp * soft_start #* 0.2
             soft_joint_kd = joint_kd #* 0.2
-                
-            msg = bxiMsg.ActuatorCmds()
-            msg.header.frame_id = robot_name
-            msg.header.stamp = self.get_clock().now().to_msg()
-            msg.actuators_name = joint_name
-            
-            # 设置初始位置
-            msg.pos = self.dance_jojo.motioninputpos[0,:].tolist()#取第一帧动作作为初始位置
-            # msg.pos = joint_nominal_pos_dance.tolist()#取预设的舞蹈初始位置
-            msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
-            msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
-            msg.kp = soft_joint_kp.tolist()
-            msg.kd = soft_joint_kd.tolist()
-            self.act_pub.publish(msg)   
+            first_frame_pos = self.dance_jojo.motioninputpos[0,:]    
+            self.send_to_motor(first_frame_pos, soft_joint_kp, soft_joint_kd)
+               
         elif self.step == 2:
             with self.lock_in:
                 q = self.qpos
@@ -482,7 +596,8 @@ class BxiExample(Node):
                 motion_quat = self.dance_jojo.motionquat[self.dance_jojo.timestep,0,:]
                 motion_pos = self.dance_jojo.motioninputpos[self.dance_jojo.timestep,:]
                 motion_vel = self.dance_jojo.motioninputvel[self.dance_jojo.timestep,:]
-                
+            #状态机
+            # self.state_machine()    
             # 前两个时间步计算初始转换矩阵
             if self.dance_jojo.timestep < 2:
                 self.dance_jojo.compute_init_to_world(quat, motion_quat)# robot_quat, motion_quat
@@ -490,20 +605,8 @@ class BxiExample(Node):
             if self.dance_jojo.timestep < self.dance_jojo.motionpos.shape[0]:
                 self.obs_input = self.dance_jojo.create_obs_input(q, dq, quat, omega, motion_pos, motion_quat, motion_vel)
                 self.target_dof_pos = self.dance_jojo.inference_step(self.obs_input , self.dance_jojo.timestep)
-                
                 # 发布关节控制指令
-                msg = bxiMsg.ActuatorCmds()
-                msg.header.frame_id = robot_name
-                msg.header.stamp = self.get_clock().now().to_msg()
-                msg.actuators_name = joint_name
-                msg.pos = self.target_dof_pos.tolist()
-                msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
-                msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
-                msg.kp = self.dance_jojo.stiffness_array.tolist()   # 刚度
-                msg.kd = (0.2*self.dance_jojo.damping_array).tolist()    # 阻尼0.2,xml文件中额外添加了阻尼参数,需要调小
-                
-                #发送指令
-                self.act_pub.publish(msg)
+                self.send_to_motor(self.target_dof_pos, self.dance_jojo.stiffness_array, 0.2*self.dance_jojo.damping_array)
                 
                 # self.timestep =5600
                 self.dance_jojo.timestep += 1
@@ -514,6 +617,18 @@ class BxiExample(Node):
                 self.dance_jojo.timestep = 0
                 
         self.loop_count += 1
+    
+    def send_to_motor(self, dof_pos_target, joint_kp, joint_kd):
+        msg = bxiMsg.ActuatorCmds()
+        msg.header.frame_id = robot_name
+        msg.header.stamp = self.get_clock().now().to_msg()
+        msg.actuators_name = joint_name
+        msg.pos = dof_pos_target.tolist()
+        msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
+        msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
+        msg.kp = joint_kp.tolist()
+        msg.kd = joint_kd.tolist()
+        self.act_pub.publish(msg)   
     
     def robot_reset(self, reset_step, release):
         req = bxiSrv.RobotReset.Request()
