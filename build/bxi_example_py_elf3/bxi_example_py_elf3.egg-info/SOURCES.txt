@@ -9,9 +9,11 @@ setup.py
 ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/top_level.txt
 ../../build/bxi_example_py_elf3/bxi_example_py_elf3.egg-info/zip-safe
 bxi_example_py_elf3/__init__.py
+bxi_example_py_elf3/bxi_example_dance copy.py
 bxi_example_py_elf3/bxi_example_dance.py
 bxi_example_py_elf3/bxi_example_run.py
 bxi_example_py_elf3/bxi_example_walk.py
+bxi_example_py_elf3/deploy_mujoco_elf3_no.py
 launch/example_launch_dance.py
 launch/example_launch_dance_hw.py
 launch/example_launch_run.py

@@ -86,7 +86,7 @@ joint_nominal_pos = np.array([   # 指定的固定关节角度
     0.5,-0.3,0.1,-0.2, 0.0,0.0,0.0],    # 右臂放在大腿旁边 (Y=0 肩平, X=0 前后居中, Z=0 不旋转, 肘关节微弯)
     dtype=np.float32)
 
-joint_kp = np.array([     # 指定关节的kp，和joint_name顺序一一对应
+joint_kp = np.array([     # 奔跑的关节kp，和joint_name顺序一一对应
     300,300,300,
     150,100,100,200,50,20,
     150,100,100,200,50,20,
@@ -94,7 +94,7 @@ joint_kp = np.array([     # 指定关节的kp，和joint_name顺序一一对应
     80,80,80,60, 20,20,20], 
     dtype=np.float32)
 
-joint_kd = np.array([  # 指定关节的kd，和joint_name顺序一一对应
+joint_kd = np.array([  # 奔跑的关节kd，和joint_name顺序一一对应
     3,3,3,
     2,2,2,2.5,1,1,
     2,2,2,2.5,1,1,
@@ -212,7 +212,6 @@ def matrix_to_quaternion_simple(matrix):
         z = 0.25 * s
     
     return np.array([w, x, y, z])
-    
 
 class BxiExample(Node):
     
@@ -262,49 +261,34 @@ class BxiExample(Node):
         self.omega = np.zeros(3,dtype=np.double)
         self.quat = np.zeros(4,dtype=np.double)
         
+        self.initialize_model(self.npz_file_dict["jojo"],self.onnx_file_dict["jojo"])
+
+        self.step = 0
+        self.loop_count = 0
+        self.dt = 0.01  # loop @100Hz
+        # self.dt = 0.02  # loop 模型时间1/dt=50Hz
+        self.timer = self.create_timer(self.dt, self.timer_callback, callback_group=self.timer_callback_group_1)
+
+    # 初始化部分（完整版）
+    def initialize_model(self, npz_path, onnx_path):
         # 加载运动数据
-        print("motion load")
-        self.motion =  np.load(self.npz_file_dict["jojo"])
+        print("model init!!!")
+        self.motion =  np.load(npz_path)
         self.motionpos = self.motion["body_pos_w"]
         self.motionquat = self.motion["body_quat_w"]
         self.motioninputpos = self.motion["joint_pos"]
         self.motioninputvel = self.motion["joint_vel"]
-
-        print("policy test")
-        self.obs = np.zeros(num_obs, dtype=np.float32)
-        self.action = np.zeros(num_actions, dtype=np.float32)
-        self.timestep = 0
-        self.obs_input = self.obs.reshape(1, -1).astype(np.float32) # 将obs从(154,)变成(1,154)并确保数据类型
-        self.initialize_onnx(self.onnx_file_dict["jojo"])
-
-        self.action = self.inference_step(self.obs_input , self.timestep)
-        self.action = np.asarray(self.action).reshape(-1)
-                
-        self.target_dof_pos = self.action * self.action_scale + self.joint_pos_array
-        self.target_dof_pos = self.target_dof_pos.reshape(-1,)
-        self.target_dof_pos = np.array([self.target_dof_pos[self.joint_seq.index(joint)] for joint in joint_name])
+        print("Inference timestep:", self.motionpos.shape[0]) #总动作序列5650
         
-        self.action_buffer = np.zeros((num_actions,), dtype=np.float32)
-        self.motioninput = np.concatenate((self.motioninputpos[self.timestep,:],self.motioninputvel[self.timestep,:]), axis=0)
-        self.motionposcurrent = self.motionpos[self.timestep,0,:]
-        self.motionquatcurrent = self.motionquat[self.timestep,0,:]
-        
-        self.step = 0
-        self.loop_count = 0
-        # self.dt = 0.01  # loop @100Hz
-        self.dt = 0.02  # loop @50Hz
-        self.timer = self.create_timer(self.dt, self.timer_callback, callback_group=self.timer_callback_group_1)
-
-    # 初始化部分（完整版）
-    def initialize_onnx(self, model_path):
-        
-        model = onnx.load(model_path)
+        # 加载ONNX模型
+        model = onnx.load(onnx_path)
         for prop in model.metadata_props:
             if prop.key == "joint_names":
                 self.joint_seq = prop.value.split(",")
             if prop.key == "default_joint_pos":   
                 self.joint_pos_array_seq = np.array([float(x) for x in prop.value.split(",")])
                 self.joint_pos_array = np.array([self.joint_pos_array_seq[self.joint_seq.index(joint)] for joint in joint_name])
+
             if prop.key == "joint_stiffness":
                 self.stiffness_array_seq = np.array([float(x) for x in prop.value.split(",")])
                 self.stiffness_array = np.array([self.stiffness_array_seq[self.joint_seq.index(joint)] for joint in joint_name])
@@ -315,7 +299,7 @@ class BxiExample(Node):
             
             if prop.key == "action_scale":
                 self.action_scale = np.array([float(x) for x in prop.value.split(",")])
-            print(f"{prop.key}: {prop.value}")
+            # print(f"{prop.key}: {prop.value}")#查看metadata_props内容
         
         # 配置执行提供者（根据硬件选择最优后端）
         providers = [
@@ -330,7 +314,7 @@ class BxiExample(Node):
         
         # 创建推理会话
         self.session = ort.InferenceSession(
-            model_path,
+            onnx_path,
             providers=providers,
             sess_options=options
         )
@@ -344,17 +328,78 @@ class BxiExample(Node):
             self.input_info.shape,
             dtype=np.float32
         )
+        
+        #模型测试
+        print("policy test start!!!")
+        self.timestep = 0
+        self.obs = np.zeros(num_obs, dtype=np.float32)
+        self.obs_input = self.obs.reshape(1, -1).astype(np.float32) # 将obs从(154,)变成(1,154)并确保数据类型
+        self.inference_step(self.obs_input , self.timestep)# 预推理一次
+        self.action_buffer = np.zeros((num_actions,), dtype=np.float32)
+        print("policy test finished!!!")
 
     # 循环推理部分（极速版）
     def inference_step(self, obs_data, timestep):
         # 使用预分配内存（如果适用）
         np.copyto(self.input_buffer, obs_data)  # 比直接赋值更安全
+        self.action = self.session.run(['actions'], {'obs': obs_data, 'time_step':np.array([[timestep]], dtype=np.float32)})[0]
         
+        self.action = np.asarray(self.action).reshape(-1)
+        self.action_buffer = self.action.copy()
+        
+        self.target_dof_pos = self.action * self.action_scale + self.joint_pos_array_seq
+        self.target_dof_pos = self.target_dof_pos.reshape(-1,)
+        self.target_dof_pos = np.array([self.target_dof_pos[self.joint_seq.index(joint)] for joint in joint_name])
         # 极简推理（比原版快5-15%）
-        return self.session.run(['actions'], {'obs': obs_data, 'time_step':np.array([[timestep]], dtype=np.float32)})[0]
+        return self.target_dof_pos
 
-    def timer_callback(self):
+    def compute_init_to_world(self, robot_quat, motion_quat):
+        yaw_motion_quat = yaw_quat(motion_quat)
+        yaw_motion_matrix = np.zeros(9)
+        yaw_motion_matrix = quaternion_to_rotation_matrix(yaw_motion_quat).reshape(3,3)
         
+        yaw_robot_quat = yaw_quat(robot_quat)
+        yaw_robot_matrix = np.zeros(9)
+        yaw_robot_matrix = quaternion_to_rotation_matrix(yaw_robot_quat).reshape(3,3)
+        yaw_robot_matrix = yaw_robot_matrix.reshape(3,3)
+        self.init_to_world =  yaw_robot_matrix @ yaw_motion_matrix.T
+    
+    def compute_relmatrix(self, robot_quat, motion_quat):
+        rel_quat = quaternion_multiply(matrix_to_quaternion_simple(self.init_to_world), motion_quat)
+        rel_quat = quaternion_multiply(quaternion_conjugate(robot_quat),rel_quat)
+        rel_quat = rel_quat / np.linalg.norm(rel_quat) # 归一化四元数
+        rel_matrix = quaternion_to_rotation_matrix(rel_quat)[:,:2].reshape(-1,)  # 转换为旋转矩阵并取前两列展平
+        return rel_matrix
+    
+    def create_obs_input(self,q, dq, quat, omega, motion_pos, motion_quat, motion_vel):
+        # create observation
+        offset = 0
+        motioninput = np.concatenate((motion_pos,motion_vel),axis=0)
+        self.obs[offset:offset + 58] = motioninput
+        
+        offset += 58
+        relmatrix = self.compute_relmatrix(quat, motion_quat)
+        self.obs[offset:offset + 6] = relmatrix  
+        
+        offset += 6
+        self.obs[offset:offset + 3] = omega 
+        
+        offset += 3
+        qpos_seq = np.array([q[joint_name.index(joint)] for joint in self.joint_seq])
+        self.obs[offset:offset + num_actions] = qpos_seq - self.joint_pos_array_seq  # joint positions
+        
+        offset += num_actions
+        qvel_seq = np.array([dq[joint_name.index(joint)] for joint in self.joint_seq])
+        self.obs[offset:offset + num_actions] = qvel_seq  # joint velocities
+        
+        offset += num_actions   
+        self.obs[offset:offset + num_actions] = self.action_buffer
+        
+        self.obs_input = self.obs.reshape(1, -1).astype(np.float32) # 将obs从(154,)变成(1,154)并确保数据类型
+        
+        return self.obs_input
+    
+    def timer_callback(self):
         # ptyhon 与 rclpy 多线程不太友好，这里使用定时间+简易状态机运行a
         if self.step == 0:
             self.robot_reset(1, False) # first reset
@@ -366,6 +411,7 @@ class BxiExample(Node):
             print('robot reset 2!')
             self.loop_count = 0
             self.step = 2
+            print("Dance motion start!")
             return
         
         if self.step == 1:
@@ -382,83 +428,31 @@ class BxiExample(Node):
             msg.actuators_name = joint_name
             
             # 设置初始位置
-            # qpos = self.target_dof_pos
-            # msg.pos = qpos.tolist()
-            msg.pos = joint_nominal_pos_dance.tolist()
-            
-            # msg.pos = np.zeros(dof_num, dtype=np.float32).tolist()
+            msg.pos = self.motioninputpos[0,:].tolist()#取第一帧动作作为初始位置
+            # msg.pos = joint_nominal_pos_dance.tolist()#取预设的舞蹈初始位置
             msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
             msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
             msg.kp = soft_joint_kp.tolist()
             msg.kd = soft_joint_kd.tolist()
             self.act_pub.publish(msg)   
         elif self.step == 2:
-            print("Dance motion start!")
             with self.lock_in:
                 q = self.qpos
                 dq = self.qvel
                 quat = self.quat
                 omega = self.omega
                 
-            # 前两个时间步进行初始化
-            if self.timestep < 2:
-
-                ref_motion_quat = self.motionquat[self.timestep,0,:]
-                yaw_motion_quat = yaw_quat(ref_motion_quat)
-                yaw_motion_matrix = np.zeros(9)
-                yaw_motion_matrix = quaternion_to_rotation_matrix(yaw_motion_quat).reshape(3,3)
+                motion_quat = self.motionquat[self.timestep,0,:]
+                motion_pos = self.motioninputpos[self.timestep,:]
+                motion_vel = self.motioninputvel[self.timestep,:]
                 
-                robot_quat = quat
-                yaw_robot_quat = yaw_quat(robot_quat)
-                yaw_robot_matrix = np.zeros(9)
-                yaw_robot_matrix = quaternion_to_rotation_matrix(yaw_robot_quat).reshape(3,3)
-                yaw_robot_matrix = yaw_robot_matrix.reshape(3,3)
-                self.init_to_world =  yaw_robot_matrix @ yaw_motion_matrix.T
-                # 打印躯干四元数
-                # print("quat_torso",robot_quat)
+            # 前两个时间步计算初始转换矩阵
+            if self.timestep < 2:
+                self.compute_init_to_world(quat, motion_quat)# robot_quat, motion_quat
             
             if self.timestep < self.motionpos.shape[0]:
-                # print("Inference timestep:", self.motionpos.shape[0]) #总动作序列5650
-                # if self.loop_count % self.control_decimation == 0:
-                self.position = q #23
-                self.quaternion = dq
-                # print("q:", q)
-                # print("qpos:", len(q))
-                # print("qvel:", len(dq))
-                self.motioninput = np.concatenate((self.motioninputpos[self.timestep,:],self.motioninputvel[self.timestep,:]),axis=0)
-                self.motionposcurrent = self.motionpos[self.timestep,0,:]
-                self.motionquatcurrent = self.motionquat[self.timestep,0,:]
-                               
-                # 计算相对四元数
-                self.relquat = quaternion_multiply(matrix_to_quaternion_simple(self.init_to_world), self.motionquatcurrent)
-                self.relquat = quaternion_multiply(quaternion_conjugate(self.quat),self.relquat)
-                # 归一化四元数
-                self.relquat = self.relquat / np.linalg.norm(self.relquat)
-                # 转换为旋转矩阵并取前两列展平
-                self.relmatrix = quaternion_to_rotation_matrix(self.relquat)[:,:2].reshape(-1,) 
-                    
-                # create observation
-                offset = 0
-                self.obs[offset:offset + 58] = self.motioninput
-                offset += 58
-                self.obs[offset:offset + 6] = self.relmatrix  
-                offset += 6
-                self.obs[offset:offset + 3] = omega 
-                offset += 3
-                self.obs[offset:offset + num_actions] = q - self.joint_pos_array_seq  # joint positions
-                offset += num_actions
-                self.obs[offset:offset + num_actions] = dq  # joint velocities
-                offset += num_actions   
-                self.obs[offset:offset + num_actions] = self.action_buffer
-                
-                self.obs_input = self.obs.reshape(1, -1).astype(np.float32) # 将obs从(154,)变成(1,154)并确保数据类型
-                self.action = self.inference_step(self.obs_input , self.timestep)
-                self.action = np.asarray(self.action).reshape(-1)
-                self.action_buffer = self.action.copy()
-                
-                self.target_dof_pos = self.action * self.action_scale + self.joint_pos_array
-                self.target_dof_pos = self.target_dof_pos.reshape(-1,)
-                self.target_dof_pos = np.array([self.target_dof_pos[self.joint_seq.index(joint)] for joint in joint_name])
+                self.obs_input = self.create_obs_input(q, dq, quat, omega, motion_pos, motion_quat, motion_vel)
+                self.target_dof_pos = self.inference_step(self.obs_input , self.timestep)
                 
                 # 发布关节控制指令
                 msg = bxiMsg.ActuatorCmds()
@@ -466,31 +460,22 @@ class BxiExample(Node):
                 msg.header.stamp = self.get_clock().now().to_msg()
                 msg.actuators_name = joint_name
                 msg.pos = self.target_dof_pos.tolist()
-                # print(msg.pos)
                 msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
                 msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
-                
-                msg.kp = (0.8*self.stiffness_array).tolist()   # 刚度0.8
-                msg.kd = (0.2*self.damping_array).tolist()    # 阻尼0.2
-                
-                # print("kp:", msg.kp)
-                # print("kd:", msg.kd)
-                
-                # msg.kp = (0.45*joint_kp).tolist()
-                # msg.kd = (0.45*joint_kd).tolist()
-                
-                # msg.kp = (1*joint_kp).tolist()
-                # msg.kd = (1*joint_kd).tolist()
+                msg.kp = self.stiffness_array.tolist()   # 刚度
+                msg.kd = (0.2*self.damping_array).tolist()    # 阻尼0.2,xml文件中额外添加了阻尼参数,需要调小
                 
                 #发送指令
                 self.act_pub.publish(msg)
-                self.timestep += 1
+                
                 # self.timestep =5600
+                self.timestep += 1
                 # print("timestep:", self.timestep)
-            
+                
             if self.timestep >= self.motionpos.shape[0]:
                 print("Motion replay finished, resetting simulation.")
                 self.timestep = 0
+                
         self.loop_count += 1
     
     def robot_reset(self, reset_step, release):
