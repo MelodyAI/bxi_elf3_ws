@@ -1,0 +1,292 @@
+<mujoco model="bx scene">
+  <!-- <include file="bx_29dof_origin.xml"/> -->
+  <!-- <include file="elf3.xml"/> -->
+  <!-- <include file="elf3_peng.xml"/> -->
+
+
+  <statistic center="0 0 0.6" extent="1.3"/>
+
+  <visual>
+    <headlight diffuse="0.5 0.5 0.5" ambient="0.2 0.2 0.2" specular="0.9 0.9 0.9"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="200" elevation="-20"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="flat" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.3 0.52 0.63" rgb2="0.3 0.52 0.63" markrgb="1 1 1" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+
+    <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2"
+        width="512" height="512" mark="cross" markrgb=".8 .8 .8"/>
+    <texture name="texplane2" type="2d" builtin="checker" rgb1="1 0.3137 0.1843" rgb2="0.0 0.30196 0.38039"
+        width="512" height="512" mark="cross" markrgb=".8 .8 .8"/>
+    <material name="matplane" reflectance="0." texture="texplane" texrepeat="1 1" texuniform="true"/>
+    <material name="matplane2" reflectance="0.1" texture="texplane2" texrepeat="1 1" texuniform="true"/>
+    <hfield name='hf0' nrow='200' ncol='200' size="10 5 0.2 .1"/>
+    <!-- <hfield name="terrain" file="/home/pi/add_ubuntu/rl_train_project/wheel_legged_genesis/assets/terrain/png/agent_eval_gym.png" size="10.5 10.5 .4 0.1" /> -->
+  </asset>
+
+  <worldbody>
+    <light pos="1 0 3.5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane" group="0"/>
+    <!-- <geom name="ground" type="hfield" hfield="hf1" size="0 0 1" pos="0.001 0 0" quat="1 0 0 0" material="matplane" condim="1" conaffinity='15'/> -->
+    <!-- <geom type="hfield" hfield="terrain" pos="11 -15 0" size="10.5 10.5 .4" group="0" /> -->
+    
+    <!-- <geom type="box" size="0.9659 1.6 0.2588" euler="0 -0.55 0" pos="1 0 -0.015" rgba="0.39 0.56 0.39 1" conaffinity="15" condim="3"/>
+    <geom type="box" size="0.55 1.6 0.25" euler="0 0 0" pos="2.566 0 0.25" rgba="0.39 0 0.39 1" conaffinity="15" condim="3"/> -->
+
+    <!-- =============================================== 100米直线闯关地形 =============================================== -->
+    <!-- 总长度 105米，宽 3米，包含: 斜面/台阶/凹凸/崎岖/曲面/杂乱地面 -->
+
+    <!-- 第1段(0-8m): 初始斜面区域 -->
+    <geom name="sec1_ramp_up_1" pos="1.0 0 0.10" type="box" size="1.0 1.5 0.10" euler="0 -0.25 0" rgba="0.62 0.58 0.52 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec1_ramp_up_2" pos="3.0 0 0.35" type="box" size="1.0 1.5 0.10" euler="0 -0.25 0" rgba="0.62 0.58 0.52 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec1_ramp_down"  pos="5.0 0 0.35" type="box" size="1.0 1.5 0.10" euler="0 0.25 0"  rgba="0.62 0.58 0.52 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec1_flat"       pos="7.0 0 0.08" type="box" size="1.5 1.5 0.08" rgba="0.60 0.55 0.50 1"/>
+
+    <!-- 第2段(8-16m): 台阶上升区 -->
+    <geom name="sec2_step_1" pos="8.5 0 0.05" type="box" size="0.3 1.5 0.05" rgba="0.55 0.62 0.60 1"/>
+    <geom name="sec2_step_2" pos="9.2 0 0.10" type="box" size="0.3 1.5 0.10" rgba="0.54 0.60 0.58 1"/>
+    <geom name="sec2_step_3" pos="9.9 0 0.15" type="box" size="0.3 1.5 0.15" rgba="0.53 0.58 0.56 1"/>
+    <geom name="sec2_step_4" pos="10.6 0 0.20" type="box" size="0.3 1.5 0.20" rgba="0.52 0.56 0.54 1"/>
+    <geom name="sec2_step_5" pos="11.3 0 0.25" type="box" size="0.3 1.5 0.25" rgba="0.51 0.54 0.52 1"/>
+    <geom name="sec2_step_6" pos="12.0 0 0.20" type="box" size="0.3 1.5 0.20" rgba="0.52 0.56 0.54 1"/>
+    <geom name="sec2_step_7" pos="12.7 0 0.15" type="box" size="0.3 1.5 0.15" rgba="0.53 0.58 0.56 1"/>
+    <geom name="sec2_step_8" pos="13.4 0 0.10" type="box" size="0.3 1.5 0.10" rgba="0.54 0.60 0.58 1"/>
+    <geom name="sec2_step_9" pos="14.1 0 0.05" type="box" size="0.3 1.5 0.05" rgba="0.55 0.62 0.60 1"/>
+
+
+    <!-- 第3段(16-25m): 凹凸不平地面 -->
+    <geom name="sec3_bump_1" pos="15.2 -0.6 0.08" type="box" size="0.4 0.5 0.08" rgba="0.68 0.52 0.45 1"/>
+    <geom name="sec3_dip_1"  pos="15.8  0.0 0.02" type="box" size="0.3 1.5 0.02" rgba="0.45 0.52 0.60 1"/>
+    <geom name="sec3_bump_2" pos="16.4 -0.5 0.10" type="box" size="0.4 0.6 0.10" rgba="0.70 0.54 0.46 1"/>
+    <geom name="sec3_dip_2"  pos="17.0  0.3 0.03" type="box" size="0.3 1.5 0.03" rgba="0.44 0.50 0.58 1"/>
+    <geom name="sec3_bump_3" pos="17.6 -0.4 0.12" type="box" size="0.4 0.7 0.12" rgba="0.72 0.56 0.48 1"/>
+    <geom name="sec3_dip_3"  pos="18.2  0.2 0.01" type="box" size="0.3 1.5 0.01" rgba="0.42 0.48 0.56 1"/>
+    <geom name="sec3_bump_4" pos="18.8 -0.6 0.11" type="box" size="0.4 0.5 0.11" rgba="0.71 0.55 0.47 1"/>
+    <geom name="sec3_dip_4"  pos="19.4  0.4 0.02" type="box" size="0.3 1.5 0.02" rgba="0.43 0.49 0.57 1"/>
+    <geom name="sec3_bump_5" pos="20.0 -0.5 0.13" type="box" size="0.4 0.6 0.13" rgba="0.73 0.57 0.49 1"/>
+    <geom name="sec3_dip_5"  pos="20.6  0.1 0.04" type="box" size="0.3 1.5 0.04" rgba="0.46 0.52 0.61 1"/>
+    <geom name="sec3_bump_6" pos="21.2 -0.7 0.09" type="box" size="0.4 0.4 0.09" rgba="0.69 0.53 0.44 1"/>
+    <geom name="sec3_dip_6"  pos="21.8  0.5 0.03" type="box" size="0.3 1.5 0.03" rgba="0.45 0.51 0.59 1"/>
+    <geom name="sec3_bump_7" pos="22.4 -0.3 0.14" type="box" size="0.4 0.8 0.14" rgba="0.74 0.58 0.50 1"/>
+    <geom name="sec3_dip_7"  pos="23.0  0.0 0.01" type="box" size="0.3 1.5 0.01" rgba="0.41 0.47 0.55 1"/>
+    <geom name="sec3_bump_8" pos="23.6 -0.6 0.12" type="box" size="0.4 0.5 0.12" rgba="0.72 0.56 0.48 1"/>
+    <geom name="sec3_dip_8"  pos="24.2  0.3 0.02" type="box" size="0.3 1.5 0.02" rgba="0.44 0.50 0.58 1"/>
+
+    <!-- 第4段(25-40m): 崎岖路面(密集小凸块) -->
+    <geom name="sec4_rough_1"  pos="25.5 -0.8 0.04" type="box" size="0.2 0.4 0.04" rgba="0.65 0.48 0.42 1"/>
+    <geom name="sec4_rough_2"  pos="25.9 -0.4 0.07" type="box" size="0.2 0.5 0.07" rgba="0.67 0.50 0.44 1"/>
+    <geom name="sec4_rough_3"  pos="26.3  0.2 0.05" type="box" size="0.2 0.6 0.05" rgba="0.64 0.47 0.41 1"/>
+    <geom name="sec4_rough_4"  pos="26.7 -0.6 0.08" type="box" size="0.2 0.45 0.08" rgba="0.68 0.51 0.45 1"/>
+    <geom name="sec4_rough_5"  pos="27.1  0.5 0.06" type="box" size="0.2 0.55 0.06" rgba="0.66 0.49 0.43 1"/>
+    <geom name="sec4_rough_6"  pos="27.5 -0.3 0.09" type="box" size="0.2 0.7 0.09" rgba="0.69 0.52 0.46 1"/>
+    <geom name="sec4_rough_7"  pos="27.9  0.7 0.04" type="box" size="0.2 0.4 0.04" rgba="0.63 0.46 0.40 1"/>
+    <geom name="sec4_rough_8"  pos="28.3 -0.7 0.10" type="box" size="0.2 0.35 0.10" rgba="0.70 0.53 0.47 1"/>
+    <geom name="sec4_rough_9"  pos="28.7  0.0 0.07" type="box" size="0.2 0.65 0.07" rgba="0.67 0.50 0.44 1"/>
+    <geom name="sec4_rough_10" pos="29.1 -0.5 0.08" type="box" size="0.2 0.5 0.08" rgba="0.68 0.51 0.45 1"/>
+    <geom name="sec4_rough_11" pos="29.5  0.4 0.05" type="box" size="0.2 0.6 0.05" rgba="0.64 0.47 0.41 1"/>
+    <geom name="sec4_rough_12" pos="29.9 -0.8 0.06" type="box" size="0.2 0.45 0.06" rgba="0.66 0.49 0.43 1"/>
+    <geom name="sec4_rough_13" pos="30.3  0.6 0.09" type="box" size="0.2 0.5 0.09" rgba="0.69 0.52 0.46 1"/>
+    <geom name="sec4_rough_14" pos="30.7 -0.2 0.07" type="box" size="0.2 0.7 0.07" rgba="0.67 0.50 0.44 1"/>
+    <geom name="sec4_rough_15" pos="31.1  0.8 0.04" type="box" size="0.2 0.35 0.04" rgba="0.63 0.46 0.40 1"/>
+    <geom name="sec4_rough_16" pos="31.5 -0.6 0.08" type="box" size="0.2 0.5 0.08" rgba="0.68 0.51 0.45 1"/>
+    <geom name="sec4_rough_17" pos="31.9  0.3 0.06" type="box" size="0.2 0.6 0.06" rgba="0.65 0.48 0.42 1"/>
+    <geom name="sec4_rough_18" pos="32.3 -0.7 0.10" type="box" size="0.2 0.4 0.10" rgba="0.70 0.53 0.47 1"/>
+    <geom name="sec4_rough_19" pos="32.7  0.5 0.05" type="box" size="0.2 0.55 0.05" rgba="0.64 0.47 0.41 1"/>
+    <geom name="sec4_rough_20" pos="33.1 -0.4 0.09" type="box" size="0.2 0.65 0.09" rgba="0.69 0.52 0.46 1"/>
+    <geom name="sec4_rough_21" pos="33.5  0.7 0.04" type="box" size="0.2 0.4 0.04" rgba="0.63 0.46 0.40 1"/>
+    <geom name="sec4_rough_22" pos="33.9 -0.5 0.07" type="box" size="0.2 0.5 0.07" rgba="0.67 0.50 0.44 1"/>
+    <geom name="sec4_rough_23" pos="34.3  0.2 0.08" type="box" size="0.2 0.6 0.08" rgba="0.68 0.51 0.45 1"/>
+    <geom name="sec4_rough_24" pos="34.7 -0.8 0.06" type="box" size="0.2 0.35 0.06" rgba="0.66 0.49 0.43 1"/>
+    <geom name="sec4_rough_25" pos="35.1  0.4 0.10" type="box" size="0.2 0.6 0.10" rgba="0.70 0.53 0.47 1"/>
+    <geom name="sec4_rough_26" pos="35.5 -0.6 0.05" type="box" size="0.2 0.5 0.05" rgba="0.64 0.47 0.41 1"/>
+    <geom name="sec4_rough_27" pos="35.9  0.6 0.09" type="box" size="0.2 0.55 0.09" rgba="0.69 0.52 0.46 1"/>
+    <geom name="sec4_rough_28" pos="36.3 -0.3 0.07" type="box" size="0.2 0.7 0.07" rgba="0.67 0.50 0.44 1"/>
+    <geom name="sec4_rough_29" pos="36.7  0.8 0.04" type="box" size="0.2 0.4 0.04" rgba="0.63 0.46 0.40 1"/>
+    <geom name="sec4_rough_30" pos="37.1 -0.7 0.08" type="box" size="0.2 0.4 0.08" rgba="0.68 0.51 0.45 1"/>
+    <geom name="sec4_rough_31" pos="37.5  0.1 0.06" type="box" size="0.2 0.65 0.06" rgba="0.65 0.48 0.42 1"/>
+    <geom name="sec4_rough_32" pos="37.9 -0.5 0.10" type="box" size="0.2 0.5 0.10" rgba="0.70 0.53 0.47 1"/>
+    <geom name="sec4_rough_33" pos="38.3  0.5 0.05" type="box" size="0.2 0.6 0.05" rgba="0.64 0.47 0.41 1"/>
+    <geom name="sec4_rough_34" pos="38.7 -0.4 0.09" type="box" size="0.2 0.5 0.09" rgba="0.69 0.52 0.46 1"/>
+    <geom name="sec4_rough_35" pos="39.1  0.7 0.07" type="box" size="0.2 0.55 0.07" rgba="0.67 0.50 0.44 1"/>
+
+    <!-- 第5段(40-55m): 曲面波形地面 -->
+    <geom name="sec5_curve_1"  pos="40.5 0 0.08" type="box" size="1.0 1.5 0.08" euler="0 -0.15 0" rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_2"  pos="42.0 0 0.14" type="box" size="1.0 1.5 0.08" euler="0 0.15 0"  rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_3"  pos="43.5 0 0.12" type="box" size="1.0 1.5 0.08" euler="0 -0.12 0" rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_4"  pos="45.0 0 0.16" type="box" size="1.0 1.5 0.08" euler="0 0.12 0"  rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_5"  pos="46.5 0 0.10" type="box" size="1.0 1.5 0.08" euler="0 -0.10 0" rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_6"  pos="48.0 0 0.18" type="box" size="1.0 1.5 0.08" euler="0 0.10 0"  rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_7"  pos="49.5 0 0.09" type="box" size="1.0 1.5 0.08" euler="0 -0.08 0" rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_8"  pos="51.0 0 0.15" type="box" size="1.0 1.5 0.08" euler="0 0.08 0"  rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_9"  pos="52.5 0 0.11" type="box" size="1.0 1.5 0.08" euler="0 -0.06 0" rgba="0.56 0.64 0.70 1"/>
+    <geom name="sec5_curve_10" pos="54.0 0 0.17" type="box" size="1.0 1.5 0.08" euler="0 0.06 0"  rgba="0.56 0.64 0.70 1"/>
+
+    <!-- 第6段(55-70m): 杂乱地面(混合高低错杂) -->
+    <geom name="sec6_chaos_1"  pos="55.5 -0.5 0.06" type="box" size="0.5 0.6 0.06" rgba="0.70 0.60 0.50 1"/>
+    <geom name="sec6_chaos_2"  pos="56.2  0.6 0.12" type="box" size="0.4 0.5 0.12" rgba="0.72 0.62 0.52 1"/>
+    <geom name="sec6_chaos_3"  pos="56.9 -0.3 0.03" type="box" size="0.5 0.7 0.03" rgba="0.68 0.58 0.48 1"/>
+    <geom name="sec6_chaos_4"  pos="57.6  0.4 0.15" type="box" size="0.4 0.6 0.15" rgba="0.74 0.64 0.54 1"/>
+    <geom name="sec6_chaos_5"  pos="58.3 -0.7 0.08" type="box" size="0.5 0.45 0.08" rgba="0.70 0.60 0.50 1"/>
+    <geom name="sec6_chaos_6"  pos="59.0  0.2 0.14" type="box" size="0.4 0.7 0.14" rgba="0.73 0.63 0.53 1"/>
+    <geom name="sec6_chaos_7"  pos="59.7 -0.6 0.04" type="box" size="0.5 0.5 0.04" rgba="0.69 0.59 0.49 1"/>
+    <geom name="sec6_chaos_8"  pos="60.4  0.5 0.13" type="box" size="0.4 0.65 0.13" rgba="0.72 0.62 0.52 1"/>
+    <geom name="sec6_chaos_9"  pos="61.1 -0.4 0.10" type="box" size="0.5 0.6 0.10" rgba="0.71 0.61 0.51 1"/>
+    <geom name="sec6_chaos_10" pos="61.8  0.7 0.07" type="box" size="0.4 0.4 0.07" rgba="0.70 0.60 0.50 1"/>
+    <geom name="sec6_chaos_11" pos="62.5 -0.8 0.11" type="box" size="0.5 0.35 0.11" rgba="0.72 0.62 0.52 1"/>
+    <geom name="sec6_chaos_12" pos="63.2  0.3 0.09" type="box" size="0.4 0.65 0.09" rgba="0.70 0.60 0.50 1"/>
+    <geom name="sec6_chaos_13" pos="63.9 -0.5 0.16" type="box" size="0.5 0.55 0.16" rgba="0.74 0.64 0.54 1"/>
+    <geom name="sec6_chaos_14" pos="64.6  0.6 0.05" type="box" size="0.4 0.55 0.05" rgba="0.68 0.58 0.48 1"/>
+    <geom name="sec6_chaos_15" pos="65.3 -0.2 0.13" type="box" size="0.5 0.7 0.13" rgba="0.73 0.63 0.53 1"/>
+    <geom name="sec6_chaos_16" pos="66.0  0.4 0.08" type="box" size="0.4 0.6 0.08" rgba="0.70 0.60 0.50 1"/>
+    <geom name="sec6_chaos_17" pos="66.7 -0.7 0.12" type="box" size="0.5 0.45 0.12" rgba="0.72 0.62 0.52 1"/>
+    <geom name="sec6_chaos_18" pos="67.4  0.5 0.06" type="box" size="0.4 0.65 0.06" rgba="0.69 0.59 0.49 1"/>
+    <geom name="sec6_chaos_19" pos="68.1 -0.3 0.14" type="box" size="0.5 0.6 0.14" rgba="0.73 0.63 0.53 1"/>
+    <geom name="sec6_chaos_20" pos="68.8  0.6 0.04" type="box" size="0.4 0.5 0.04" rgba="0.68 0.58 0.48 1"/>
+
+    <!-- 第7段(70-82m): 陡峭下坡 + 上升 -->
+    <!-- <geom name="sec7_steep_down" pos="70.5 0 0.15" type="box" size="1.2 1.5 0.10" euler="0 0.35 0"  rgba="0.76 0.50 0.42 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec7_valley"     pos="73.0 0 0.02" type="box" size="1.0 1.5 0.02" rgba="0.50 0.50 0.50 1"/>
+    <geom name="sec7_steep_up"   pos="75.5 0 0.25" type="box" size="1.2 1.5 0.10" euler="0 -0.35 0" rgba="0.76 0.50 0.42 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec7_plateau"    pos="78.0 0 0.25" type="box" size="1.0 1.5 0.08" rgba="0.65 0.65 0.60 1"/>
+    <geom name="sec7_down_ramp"  pos="80.5 0 0.15" type="box" size="1.2 1.5 0.10" euler="0 0.30 0"  rgba="0.74 0.48 0.40 1" friction="0.95 0.05 0.01"/> -->
+
+    <!-- 第8段(82-95m): 混合小地形(台阶+颠簸) -->
+    <geom name="sec8_small_step_1" pos="82.0 0 0.08" type="box" size="0.4 1.5 0.08" rgba="0.58 0.62 0.66 1"/>
+    <geom name="sec8_small_step_2" pos="83.0 0 0.12" type="box" size="0.4 1.5 0.12" rgba="0.56 0.60 0.64 1"/>
+    <geom name="sec8_small_step_3" pos="84.0 0 0.08" type="box" size="0.4 1.5 0.08" rgba="0.58 0.62 0.66 1"/>
+    <geom name="sec8_bump_field_1" pos="85.2 -0.4 0.09" type="box" size="0.3 0.7 0.09" rgba="0.66 0.50 0.44 1"/>
+    <geom name="sec8_bump_field_2" pos="85.8  0.4 0.06" type="box" size="0.3 0.7 0.06" rgba="0.64 0.48 0.42 1"/>
+    <geom name="sec8_bump_field_3" pos="86.4 -0.5 0.11" type="box" size="0.3 0.65 0.11" rgba="0.68 0.52 0.46 1"/>
+    <geom name="sec8_bump_field_4" pos="87.0  0.3 0.07" type="box" size="0.3 0.75 0.07" rgba="0.65 0.49 0.43 1"/>
+    <geom name="sec8_bump_field_5" pos="87.6 -0.6 0.10" type="box" size="0.3 0.6 0.10" rgba="0.67 0.51 0.45 1"/>
+    <geom name="sec8_step_down_1" pos="88.5 0 0.10" type="box" size="0.4 1.5 0.10" rgba="0.57 0.61 0.65 1"/>
+    <geom name="sec8_step_down_2" pos="89.5 0 0.06" type="box" size="0.4 1.5 0.06" rgba="0.59 0.63 0.67 1"/>
+    <geom name="sec8_step_down_3" pos="90.5 0 0.04" type="box" size="0.4 1.5 0.04" rgba="0.60 0.64 0.68 1"/>
+    <geom name="sec8_rough_end_1" pos="91.6 -0.5 0.08" type="box" size="0.3 0.6 0.08" rgba="0.65 0.49 0.43 1"/>
+    <geom name="sec8_rough_end_2" pos="92.2  0.5 0.06" type="box" size="0.3 0.6 0.06" rgba="0.64 0.48 0.42 1"/>
+    <geom name="sec8_rough_end_3" pos="92.8 -0.3 0.09" type="box" size="0.3 0.7 0.09" rgba="0.66 0.50 0.44 1"/>
+    <geom name="sec8_rough_end_4" pos="93.4  0.4 0.07" type="box" size="0.3 0.65 0.07" rgba="0.65 0.49 0.43 1"/>
+
+    <!-- 第9段(95-105m): 最终挑战区 -->
+    <geom name="sec9_final_ramp_up" pos="95.5 0 0.20" type="box" size="1.0 1.5 0.08" euler="0 -0.28 0" rgba="0.78 0.52 0.44 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec9_narrow_bridge" pos="98.0 0 0.30" type="box" size="1.5 0.30 0.3" rgba="0.50 0.70 0.60 1" friction="1.2 0.02 0.005"/>
+    <geom name="sec9_final_down"    pos="100.5 0 0.25" type="box" size="1.0 1.5 0.10" euler="0 0.28 0"  rgba="0.78 0.52 0.44 1" friction="1.0 0.05 0.01"/>
+    <geom name="sec9_finish_line"   pos="103.0 0 0.08" type="box" size="1.5 1.5 0.08" rgba="0.30 0.80 0.40 1"/>
+
+
+    <!-- ===================== 上楼梯（数量翻倍）===================== -->
+<!-- <geom pos="2.3 0 0.0" type="box" size="0.25 4 0.17" quat="1.0 0 0 0"/>
+<geom pos="2.6 0 0.0" type="box" size="0.25 4 0.34" quat="1.0 0 0 0"/>
+<geom pos="2.9 0 0.0" type="box" size="0.25 4 0.51" quat="1.0 0 0 0"/>
+<geom pos="3.2 0 0.0" type="box" size="0.25 4 0.68" quat="1.0 0 0 0"/>
+<geom pos="3.5 0 0.0" type="box" size="0.25 4 0.85" quat="1.0 0 0 0"/>
+<geom pos="3.8 0 0.0" type="box" size="0.25 4 1.02" quat="1.0 0 0 0"/>
+<geom pos="4.1 0 0.0" type="box" size="0.25 4 1.19" quat="1.0 0 0 0"/>
+<geom pos="4.4 0 0.0" type="box" size="0.25 4 1.36" quat="1.0 0 0 0"/>
+<geom pos="4.7 0 0.0" type="box" size="0.25 4 1.53" quat="1.0 0 0 0"/>
+<geom pos="5.0 0 0.0" type="box" size="0.25 4 1.70" quat="1.0 0 0 0"/>
+<geom pos="5.3 0 0.0" type="box" size="0.25 4 1.87" quat="1.0 0 0 0"/>
+<geom pos="5.6 0 0.0" type="box" size="0.25 4 2.04" quat="1.0 0 0 0"/>
+<geom pos="5.9 0 0.0" type="box" size="0.25 4 2.21" quat="1.0 0 0 0"/>
+<geom pos="6.2 0 0.0" type="box" size="0.25 4 2.38" quat="1.0 0 0 0"/>
+<geom pos="6.5 0 0.0" type="box" size="0.25 4 2.55" quat="1.0 0 0 0"/>
+
+    <geom pos="7 0 0.0" type="box" size="0.25 4 2.55" quat="1.0 0 0 0"/> -->
+
+    <!-- ===================== 下楼梯（数量翻倍）===================== -->
+    <!-- <geom pos="7.6 0 0.0" type="box" size="0.20 4 1.68" quat="1.0 0 0 0"/>
+    <geom pos="7.9 0 0.0" type="box" size="0.21 4 1.56" quat="1.0 0 0 0"/>
+    <geom pos="8.2 0 0.0" type="box" size="0.22 4 1.44" quat="1.0 0 0 0"/>
+    <geom pos="8.5 0 0.0" type="box" size="0.23 4 1.32" quat="1.0 0 0 0"/>
+    <geom pos="8.8 0 0.0" type="box" size="0.24 4 1.20" quat="1.0 0 0 0"/>
+    <geom pos="9.1 0 0.0" type="box" size="0.25 4 1.08" quat="1.0 0 0 0"/>
+    <geom pos="9.4 0 0.0" type="box" size="0.26 4 0.96" quat="1.0 0 0 0"/>
+    <geom pos="9.7 0 0.0" type="box" size="0.27 4 0.84" quat="1.0 0 0 0"/>
+    <geom pos="10.0 0 0.0" type="box" size="0.28 4 0.72" quat="1.0 0 0 0"/>
+    <geom pos="10.3 0 0.0" type="box" size="0.29 4 0.60" quat="1.0 0 0 0"/>
+    <geom pos="10.6 0 0.0" type="box" size="0.30 4 0.48" quat="1.0 0 0 0"/>
+    <geom pos="10.9 0 0.0" type="box" size="0.31 4 0.36" quat="1.0 0 0 0"/>
+    <geom pos="11.2 0 0.0" type="box" size="0.32 4 0.24" quat="1.0 0 0 0"/>
+    <geom pos="11.5 0 0.0" type="box" size="0.33 4 0.12" quat="1.0 0 0 0"/> -->
+
+    <!-- ===================== 上楼梯（数量翻倍）===================== -->
+<!-- <geom pos="2.30 0 0.0" type="box" size="0.25 1.5 0.15" quat="1.0 0 0 0"/>
+<geom pos="2.60 0 0.0" type="box" size="0.25 1.5 0.30" quat="1.0 0 0 0"/>
+<geom pos="2.90 0 0.0" type="box" size="0.25 1.5 0.45" quat="1.0 0 0 0"/>
+<geom pos="3.20 0 0.0" type="box" size="0.25 1.5 0.60" quat="1.0 0 0 0"/>
+<geom pos="3.50 0 0.0" type="box" size="0.25 1.5 0.75" quat="1.0 0 0 0"/>
+<geom pos="3.80 0 0.0" type="box" size="0.25 1.5 0.90" quat="1.0 0 0 0"/>
+<geom pos="4.10 0 0.0" type="box" size="0.25 1.5 1.05" quat="1.0 0 0 0"/>
+<geom pos="4.40 0 0.0" type="box" size="0.25 1.5 1.20" quat="1.0 0 0 0"/>
+<geom pos="4.70 0 0.0" type="box" size="0.25 1.5 1.35" quat="1.0 0 0 0"/>
+<geom pos="5.00 0 0.0" type="box" size="0.25 1.5 1.50" quat="1.0 0 0 0"/>
+<geom pos="5.30 0 0.0" type="box" size="0.25 1.5 1.65" quat="1.0 0 0 0"/>
+<geom pos="5.60 0 0.0" type="box" size="0.25 1.5 1.80" quat="1.0 0 0 0"/>
+<geom pos="5.90 0 0.0" type="box" size="0.25 1.5 1.95" quat="1.0 0 0 0"/>
+<geom pos="6.20 0 0.0" type="box" size="0.25 1.5 2.10" quat="1.0 0 0 0"/>
+<geom pos="6.50 0 0.0" type="box" size="0.25 1.5 2.25" quat="1.0 0 0 0"/>
+
+<geom pos="2.30 5 0.0" type="box" size="0.25 4 0.15" quat="1.0 0 0 0"/>
+<geom pos="2.55 5 0.0" type="box" size="0.25 4 0.30" quat="1.0 0 0 0"/>
+<geom pos="2.80 5 0.0" type="box" size="0.25 4 0.45" quat="1.0 0 0 0"/>
+<geom pos="3.05 5 0.0" type="box" size="0.25 4 0.60" quat="1.0 0 0 0"/>
+<geom pos="3.30 5 0.0" type="box" size="0.25 4 0.75" quat="1.0 0 0 0"/>
+<geom pos="3.55 5 0.0" type="box" size="0.25 4 0.90" quat="1.0 0 0 0"/>
+<geom pos="3.80 5 0.0" type="box" size="0.25 4 1.05" quat="1.0 0 0 0"/>
+<geom pos="4.05 5 0.0" type="box" size="0.25 4 1.20" quat="1.0 0 0 0"/>
+<geom pos="4.30 5 0.0" type="box" size="0.25 4 1.35" quat="1.0 0 0 0"/>
+<geom pos="4.55 5 0.0" type="box" size="0.25 4 1.50" quat="1.0 0 0 0"/>
+<geom pos="4.80 5 0.0" type="box" size="0.25 4 1.65" quat="1.0 0 0 0"/>
+<geom pos="5.05 5 0.0" type="box" size="0.25 4 1.80" quat="1.0 0 0 0"/>
+<geom pos="5.30 5 0.0" type="box" size="0.25 4 1.95" quat="1.0 0 0 0"/>
+<geom pos="5.55 5 0.0" type="box" size="0.25 4 2.10" quat="1.0 0 0 0"/>
+<geom pos="5.80 5 0.0" type="box" size="0.25 4 2.25" quat="1.0 0 0 0"/> -->
+
+<!-- <geom pos="1 0 0.0" type="box" size="0.025 4 0.3" quat="1.0 0 0 0"/> -->
+
+<!-- <geom pos="2.30 -5 0.0" type="box" size="0.20 4 0.15" quat="1.0 0 0 0"/>
+<geom pos="2.50 -5 0.0" type="box" size="0.20 4 0.30" quat="1.0 0 0 0"/>
+<geom pos="2.70 -5 0.0" type="box" size="0.20 4 0.45" quat="1.0 0 0 0"/>
+<geom pos="2.90 -5 0.0" type="box" size="0.20 4 0.60" quat="1.0 0 0 0"/>
+<geom pos="3.10 -5 0.0" type="box" size="0.20 4 0.75" quat="1.0 0 0 0"/>
+<geom pos="3.30 -5 0.0" type="box" size="0.20 4 0.90" quat="1.0 0 0 0"/>
+<geom pos="3.50 -5 0.0" type="box" size="0.20 4 1.05" quat="1.0 0 0 0"/>
+<geom pos="3.70 -5 0.0" type="box" size="0.20 4 1.20" quat="1.0 0 0 0"/>
+<geom pos="3.90 -5 0.0" type="box" size="0.20 4 1.35" quat="1.0 0 0 0"/>
+<geom pos="4.10 -5 0.0" type="box" size="0.20 4 1.50" quat="1.0 0 0 0"/>
+<geom pos="4.30 -5 0.0" type="box" size="0.20 4 1.65" quat="1.0 0 0 0"/>
+<geom pos="4.50 -5 0.0" type="box" size="0.20 4 1.80" quat="1.0 0 0 0"/>
+<geom pos="4.70 -5 0.0" type="box" size="0.20 4 1.95" quat="1.0 0 0 0"/>
+<geom pos="4.90 -5 0.0" type="box" size="0.20 4 2.10" quat="1.0 0 0 0"/>
+<geom pos="5.10 -5 0.0" type="box" size="0.20 4 2.25" quat="1.0 0 0 0"/> -->
+
+    <!-- ===================== 激进地形：主通道挑战（x:14~24, y:0） ===================== -->
+    <!-- 陡上坡 + 陡下坡 -->
+    <geom name="aggr_ramp_up"   pos="14.8 0.0 0.24" type="box" size="1.2 1.4 0.10" euler="0 -0.40 0" rgba="0.70 0.55 0.45 1" friction="1.0 0.05 0.01"/>
+    <geom name="aggr_ramp_down" pos="17.2 0.0 0.24" type="box" size="1.2 1.4 0.10" euler="0 0.40 0"  rgba="0.70 0.55 0.45 1" friction="1.0 0.05 0.01"/>
+
+    <!-- 横滚斜台（考验侧向稳定） -->
+    <geom name="aggr_bank_left"  pos="18.9 0.0 0.14" type="box" size="0.75 1.3 0.12" euler="0.22 0 0"  rgba="0.52 0.62 0.72 1" friction="0.9 0.04 0.01"/>
+    <geom name="aggr_bank_right" pos="20.2 0.0 0.14" type="box" size="0.75 1.3 0.12" euler="-0.22 0 0" rgba="0.52 0.62 0.72 1" friction="0.9 0.04 0.01"/>
+
+    <!-- 离散跳石（高差+横向偏移） -->
+    <geom name="aggr_step_1" pos="21.6 -0.70 0.10" type="box" size="0.28 0.28 0.10" rgba="0.56 0.46 0.38 1"/>
+    <geom name="aggr_step_2" pos="22.3  0.45 0.16" type="box" size="0.26 0.30 0.16" rgba="0.58 0.48 0.40 1"/>
+    <geom name="aggr_step_3" pos="23.0 -0.35 0.24" type="box" size="0.24 0.26 0.24" rgba="0.60 0.50 0.42 1"/>
+    <geom name="aggr_step_4" pos="23.8  0.60 0.18" type="box" size="0.26 0.24 0.18" rgba="0.58 0.48 0.40 1"/>
+    <geom name="aggr_step_5" pos="24.5 -0.20 0.28" type="box" size="0.24 0.24 0.28" rgba="0.62 0.52 0.44 1"/>
+
+    <!-- 窄梁 + 梁上扰动块 -->
+    <geom name="aggr_narrow_beam" pos="26.2 0.0 0.13" type="box" size="1.4 0.18 0.13" rgba="0.45 0.65 0.55 1" friction="1.1 0.02 0.005"/>
+    <geom name="aggr_beam_bump_1" pos="25.5 0.00 0.20" type="box" size="0.14 0.14 0.07" rgba="0.40 0.58 0.50 1"/>
+    <geom name="aggr_beam_bump_2" pos="26.2 0.00 0.23" type="box" size="0.12 0.12 0.10" rgba="0.40 0.58 0.50 1"/>
+    <geom name="aggr_beam_bump_3" pos="26.9 0.00 0.20" type="box" size="0.14 0.14 0.07" rgba="0.40 0.58 0.50 1"/>
+
+    <!-- 末端双斜面（复合姿态变化） -->
+    <geom name="aggr_exit_tilt_1" pos="28.0 -0.45 0.18" type="box" size="0.70 0.55 0.10" euler="0.16 -0.25 0" rgba="0.68 0.56 0.50 1"/>
+    <geom name="aggr_exit_tilt_2" pos="28.9  0.45 0.18" type="box" size="0.70 0.55 0.10" euler="-0.16 -0.25 0" rgba="0.68 0.56 0.50 1"/>
+  </worldbody>
+</mujoco>

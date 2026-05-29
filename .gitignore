@@ -1,0 +1,6 @@
+build/
+install/
+log/
+.vscode/
+policy/
+MUJOCO_LOG.TXT
