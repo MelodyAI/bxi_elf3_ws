@@ -9,6 +9,9 @@ import json
 def generate_launch_description():
 
     xml_file_name = "robot/elf3_lite/xml/elf3.xml"
+    # xml_file_name = "robot/elf3_lite/xml/elf3_from_urdf.xml"
+    # xml_file_name = "robot/elf3_lite/xml/elf3_test.xml"
+    # xml_file_name = "robot/elf3_lite/xml/elf3_test2.xml"
     xml_file = os.path.join(get_package_share_path("bxi_example_py_elf3"), xml_file_name)
     
     npz_file_dict = {
@@ -17,30 +20,36 @@ def generate_launch_description():
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.npz",
         "ydd": "policy/dance_mjlab/ydd.npz",
         "fall_getup": "policy/dance_mjlab/fall_getup.npz",
-        "goodtime": "policy/dance_mjlab/goodtime.npz",
+        # "goodtime": "policy/dance_mjlab/goodtime.npz",
         "webster": "policy/dance_mjlab/webster.npz",
-        "lichenxi": "policy/dance_mjlab/lichenxi.npz",
+        # "lichenxi": "policy/dance_mjlab/lichenxi.npz",
         
         # isaaclab
         # "shuishou": "policy/dance_isaaclab/shuishou.npz",
-        "shuishou": "policy/dance_isaaclab/shuishou_clean_isaac.npz",
-        "guofuchen": "policy/dance_isaaclab/guofuchen_clean_isaac.npz",
         "backflip": "policy/dance_isaaclab/backflip.npz",
         "forwardflip": "policy/dance_isaaclab/forwardflip.npz",
         "sideflip": "policy/dance_isaaclab/sideflip.npz",
         # "balei": "policy/dance_isaaclab/balei.npz",
         "balei": "policy/dance_isaaclab/balei_clean_isaac.npz",
-        "dingdongji": "policy/dance_isaaclab/dingdongji.npz",
         "dance1_subject2": "policy/dance_isaaclab/dance1_subject2.npz",
         "jinwumen": "policy/dance_isaaclab/jinwumen.npz",
+        "guofuchen": "policy/dance_isaaclab/guofuchen_clean_isaac.npz",
+        
+        "shuishou": "policy/dance_isaaclab/shuishou_clean_isaac.npz",
+        "dingdongji": "policy/dance_isaaclab/dingdongji.npz",
         "jixiewu": "policy/dance_isaaclab/jixiewu.npz",
+        "lichenxi": "policy/dance_isaaclab/lichenxi.npz",
+        
+        "goodtime": "policy/dance_isaaclab/goodtime.npz",
+        # "change_face": "policy/dance_isaaclab/change_face.npz",
+        "change_face": "policy/dance_isaaclab/change_face_hub.npz",
         
     }  
     onnx_file_dict = {
         "amp_walk": "policy/amp_dwaq3.onnx",##symmetry
         # "amp_run": "policy/myrun6.onnx",##sim 5.5=6
-        # "amp_run": "policy/myrun10.onnx",##hw 5=5.18
-        "amp_run": "policy/myrun14.onnx",#run_dwaq
+        "amp_run": "policy/myrun10.onnx",##hw 5=5.18
+        # "amp_run": "policy/myrun14.onnx",#run_dwaq
         # "amp_run": "policy/lyprun.onnx",
         # "amp_run": "policy/lyprun2.onnx",
         
@@ -50,25 +59,34 @@ def generate_launch_description():
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.onnx",
         "ydd": "policy/dance_mjlab/ydd.onnx",
         "fall_getup": "policy/dance_mjlab/fall_getup.onnx",
-        "goodtime": "policy/dance_mjlab/goodtime.onnx",
+        # "goodtime": "policy/dance_mjlab/goodtime.onnx",
         "webster": "policy/dance_mjlab/webster.onnx",
-        "lichenxi": "policy/dance_mjlab/lichenxi8.onnx",
+        # "lichenxi": "policy/dance_mjlab/lichenxi8.onnx",
         
         # isaaclab
-        "backflip": "policy/dance_isaaclab/backflip.onnx",
+        # "backflip": "policy/dance_isaaclab/backflip.onnx",
         "forwardflip": "policy/dance_isaaclab/forwardflip.onnx",
         "sideflip": "policy/dance_isaaclab/sideflip.onnx",
-
+        
+        # isaaclab2
+        # "change_face": "policy/dance_isaaclab/change_face_26k.onnx",
+        # "change_face": "policy/dance_isaaclab/change_face_25k.onnx",
+        "change_face": "policy/dance_isaaclab/change_face_hub_16k.onnx",
+        
         # isaaclab3
-        # "shuishou": "policy/dance_isaaclab/shuishou_1w.onnx",
+        "balei": "policy/dance_isaaclab/balei_17w.onnx",
+        "dance1_subject2": "policy/dance_isaaclab/dance1_subject2.onnx",
+        "goodtime": "policy/dance_isaaclab/goodtime_100k.onnx",
+        "jinwumen": "policy/dance_isaaclab/jinwumen_60k.onnx",
+
         "shuishou": "policy/dance_isaaclab/shuishou_16k.onnx",
         "guofuchen": "policy/dance_isaaclab/guofuchen_3w.onnx",
-        "balei": "policy/dance_isaaclab/balei_17w.onnx",
         "dingdongji": "policy/dance_isaaclab/dingdongji2.onnx",
-        "dance1_subject2": "policy/dance_isaaclab/dance1_subject2.onnx",
-        # "jinwumen": "policy/dance_isaaclab/jinwumen_42k.onnx",
-        "jinwumen": "policy/dance_isaaclab/jinwumen_60k.onnx",
         "jixiewu": "policy/dance_isaaclab/jixiewu_33k.onnx",
+        "lichenxi": "policy/dance_isaaclab/lichenxi_24k.onnx",
+        "backflip": "policy/dance_isaaclab/backflip_6w.onnx",
+        # "change_face": "policy/dance_isaaclab/change_face_12k.onnx",
+        # "change_face": "policy/dance_isaaclab/change_face_21k.onnx",
     }
     
     for key, value in npz_file_dict.items():

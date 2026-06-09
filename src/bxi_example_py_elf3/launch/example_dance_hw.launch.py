@@ -20,8 +20,7 @@ def generate_launch_description():
         
         # isaaclab
         # "shuishou": "policy/dance_isaaclab/shuishou.npz",
-        # "shuishou": "policy/dance_isaaclab/shuishou_clean_isaac.npz",
-        "shuishou": "policy/dance_mjlab/dance_shuishou_lyc.npz",
+        "shuishou": "policy/dance_isaaclab/shuishou_clean_isaac.npz",
         "guofuchen": "policy/dance_isaaclab/guofuchen_clean_isaac.npz",
         "backflip": "policy/dance_isaaclab/backflip.npz",
         "forwardflip": "policy/dance_isaaclab/forwardflip.npz",
@@ -30,6 +29,8 @@ def generate_launch_description():
         "balei": "policy/dance_isaaclab/balei_clean_isaac.npz",
         "dingdongji": "policy/dance_isaaclab/dingdongji.npz",
         "dance1_subject2": "policy/dance_isaaclab/dance1_subject2.npz",
+        "jinwumen": "policy/dance_isaaclab/jinwumen.npz",
+        "jixiewu": "policy/dance_isaaclab/jixiewu.npz",
         
     }  
     onnx_file_dict = {
@@ -57,11 +58,14 @@ def generate_launch_description():
 
         # isaaclab3
         # "shuishou": "policy/dance_isaaclab/shuishou_1w.onnx",
-        "shuishou": "policy/dance_mjlab/dance_shuishou_lyc.onnx",
+        "shuishou": "policy/dance_isaaclab/shuishou_16k.onnx",
         "guofuchen": "policy/dance_isaaclab/guofuchen_3w.onnx",
         "balei": "policy/dance_isaaclab/balei_17w.onnx",
         "dingdongji": "policy/dance_isaaclab/dingdongji2.onnx",
         "dance1_subject2": "policy/dance_isaaclab/dance1_subject2.onnx",
+        # "jinwumen": "policy/dance_isaaclab/jinwumen_42k.onnx",
+        "jinwumen": "policy/dance_isaaclab/jinwumen_60k.onnx",
+        "jixiewu": "policy/dance_isaaclab/jixiewu_33k.onnx",
     }
     
     for key, value in npz_file_dict.items():

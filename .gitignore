@@ -2,5 +2,10 @@ build/
 install/
 log/
 .vscode/
-policy/
+.agents/
+.codex/
+*.pyc
+*.npz
+*.onnx
+*.zip
 MUJOCO_LOG.TXT

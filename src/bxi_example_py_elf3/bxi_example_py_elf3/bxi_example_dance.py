@@ -134,6 +134,7 @@ class motionType:
     dance_guofuchen = 21   
     dance_jinwumen = 22   
     dance_jixiewu = 23   
+    dance_change_face = 24   
 
 class BxiExample(Node):
     
@@ -338,26 +339,32 @@ class BxiExample(Node):
         self.dance_walk = DanceMotionPolicy(self.npz_file_dict["walk1_subject1"], self.onnx_file_dict["walk1_subject1"], start_frame=150)#fixed policy
         self.dance_jojo = DanceMotionPolicy(self.npz_file_dict["jojo"], self.onnx_file_dict["jojo"], start_frame=150)#fixed policy
         self.dance_ydd = DanceMotionPolicy(self.npz_file_dict["ydd"], self.onnx_file_dict["ydd"], start_frame=100, fixed_pos=True)#fixed policy
-        self.dance_goodtime = DanceMotionPolicy(self.npz_file_dict["goodtime"], self.onnx_file_dict["goodtime"], start_frame=230, fixed_pos=True)#fixed policy
-        self.dance_webster = DanceMotionPolicy(self.npz_file_dict["webster"], self.onnx_file_dict["webster"], start_frame=70)#fixed policy
+        # self.dance_goodtime = DanceMotionPolicy(self.npz_file_dict["goodtime"], self.onnx_file_dict["goodtime"], start_frame=230, fixed_pos=True)#fixed policy
+        self.dance_goodtime = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["goodtime"], self.onnx_file_dict["goodtime"], start_frame=230, fixed_pos=True)#fixed policy
         self.dance_fall_getup = DanceMotionPolicy(self.npz_file_dict["fall_getup"], self.onnx_file_dict["fall_getup"], start_frame=600)#fixed policy
-        self.dance_backflip = DanceMotionPolicyGravityIsaaclab(self.npz_file_dict["backflip"], self.onnx_file_dict["backflip"], start_frame=40)#fixed policy
-        # self.dance_backflip = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["backflip"], self.onnx_file_dict["backflip"], start_frame=40)#fixed policy
+        self.dance_webster = DanceMotionPolicy(self.npz_file_dict["webster"], self.onnx_file_dict["webster"], start_frame=70)#fixed policy
+        # self.dance_backflip = DanceMotionPolicyGravityIsaaclab(self.npz_file_dict["backflip"], self.onnx_file_dict["backflip"], start_frame=40)#fixed policy
+        self.dance_backflip = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["backflip"], self.onnx_file_dict["backflip"], start_frame=40)#fixed policy
         self.dance_forwardflip = DanceMotionPolicyGravityIsaaclab(self.npz_file_dict["forwardflip"], self.onnx_file_dict["forwardflip"], start_frame=150)#fixed policy
         self.dance_sideflip = DanceMotionPolicyGravityIsaaclab(self.npz_file_dict["sideflip"], self.onnx_file_dict["sideflip"], start_frame=150)#fixed policy
-        self.dance_lichenxi = DanceMotionPolicyGravity(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=400, fixed_pos=True)#fixed policy
-        self.dance_shuishou = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["shuishou"], self.onnx_file_dict["shuishou"], start_frame=10, fixed_pos=True)#fixed policy
+        self.dance_change_face = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["change_face"], self.onnx_file_dict["change_face"], start_frame=10, fixed_pos=True)#fixed policy
+        # self.dance_change_face = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["change_face"], self.onnx_file_dict["change_face"], start_frame=10, fixed_pos=True)#fixed policy
+        
         # self.dance_shuishou = DanceMotionPolicy(self.npz_file_dict["shuishou"], self.onnx_file_dict["shuishou"], start_frame=10, fixed_pos=True)#fixed policy
         self.dance_d1s2 = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["dance1_subject2"], self.onnx_file_dict["dance1_subject2"],start_frame=300, fixed_pos=True)#fixed policy
         self.dance_balei = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["balei"], self.onnx_file_dict["balei"], start_frame=10, fixed_pos=True)#fixed policy
-        self.dance_dingdongji = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["dingdongji"], self.onnx_file_dict["dingdongji"], start_frame=50, fixed_pos=True)#fixed policy
         self.dance_guofuchen = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["guofuchen"], self.onnx_file_dict["guofuchen"], start_frame=50, fixed_pos=True)#fixed policy
         self.dance_jinwumen = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["jinwumen"], self.onnx_file_dict["jinwumen"], start_frame=10, fixed_pos=True)#fixed policy
-        self.dance_jixiewu = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["jixiewu"], self.onnx_file_dict["jixiewu"], start_frame=10, fixed_pos=True)#fixed policy
+        self.dance_shuishou = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["shuishou"], self.onnx_file_dict["shuishou"], start_frame=10, fixed_pos=True)#fixed policy
+        self.dance_dingdongji = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["dingdongji"], self.onnx_file_dict["dingdongji"], start_frame=50, fixed_pos=True)#fixed policy
+        self.dance_jixiewu = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["jixiewu"], self.onnx_file_dict["jixiewu"], start_frame=150, fixed_pos=True)#fixed policy
+        self.dance_lichenxi = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=400, fixed_pos=True)#fixed policy
         # self.dance_lichenxi = DanceMotionPolicyGravity(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=300, fixed_pos=True)#fixed policy
+        # self.dance_lichenxi = DanceMotionPolicyGravity(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=400, fixed_pos=True)#fixed policy
         
         self.dance_webster.end_frame = self.dance_webster.end_frame - 40
-        self.dance_backflip.end_frame = self.dance_backflip.end_frame - 20
+        # self.dance_backflip.end_frame = self.dance_backflip.end_frame - 20
+        self.dance_backflip.end_frame = self.dance_backflip.end_frame - 40
         
     def timer_callback(self):
         # ptyhon 与 rclpy 多线程不太友好，这里使用定时间+简易状态机运行a
@@ -502,10 +509,10 @@ class BxiExample(Node):
             if self.motion_type == motionType.amp_walk:
                 self.vx = np.clip(msg.vel_des.x, -0.6, 1.0)
             else:
-                self.vx = np.clip(msg.vel_des.x, -1.0, 3.0)
+                # self.vx = np.clip(msg.vel_des.x, -1.0, 3.0)
                 # self.vx = np.clip(msg.vel_des.x, -1.0, 4.0)
                 # self.vx = np.clip(msg.vel_des.x, -1.0, 4.5)
-                # self.vx = np.clip(msg.vel_des.x, -1.0, 5.0)
+                self.vx = np.clip(msg.vel_des.x, -1.0, 5.0)
                 # self.vx = np.clip(msg.vel_des.x, -1.0, 5.5)
                 # self.vx = np.clip(msg.vel_des.x, -1.0, 6.0)
    
@@ -556,8 +563,8 @@ class BxiExample(Node):
             self.motion_y_prev = motion_y
             self.motion_b_prev = motion_b
             
-            use_button1 = True
-            # use_button1 =  False
+            # use_button1 = True
+            use_button1 =  False
             
             if use_button1: 
                 # 常用按键组合：A键切换amp_walk，X/Y/B键切换三个舞蹈动作
@@ -589,16 +596,45 @@ class BxiExample(Node):
                     #     self.dance_shuishou.timeinit = 0.0
                     #     self.switch_to_motion(self.dance_shuishou, motionType.dance_shuishou, num=20)
                         
+                    # self.dance_flag += 1
+                    # if self.dance_flag > 1:
+                    #     self.dance_flag = 0
+                    # if self.motion_type == motionType.amp_walk:
+                    #     self.dance_flag = 1
+                    #     self.dance_jixiewu.timestep = self.dance_jixiewu.start_frame
+                    #     self.dance_jixiewu.timeinit = 0.0
+                    #     self.switch_to_motion(self.dance_jixiewu, motionType.dance_jixiewu, num=20)
+                    
+                    # self.dance_flag += 1
+                    # if self.dance_flag > 1:
+                    #     self.dance_flag = 0
+                    # if self.motion_type == motionType.amp_walk:
+                    #     self.dance_flag = 1
+                    #     self.dance_goodtime.timestep = self.dance_goodtime.start_frame
+                    #     self.dance_goodtime.timeinit = 0.0
+                    #     self.switch_to_motion(self.dance_goodtime, motionType.dance_goodtime, num=20)
+                    
                     self.dance_flag += 1
                     if self.dance_flag > 1:
                         self.dance_flag = 0
                     if self.motion_type == motionType.amp_walk:
                         self.dance_flag = 1
-                        self.dance_jixiewu.timestep = self.dance_jixiewu.start_frame
-                        self.dance_jixiewu.timeinit = 0.0
-                        self.switch_to_motion(self.dance_jixiewu, motionType.dance_jixiewu, num=20)
+                        self.dance_change_face.timestep = self.dance_change_face.start_frame
+                        self.dance_change_face.timeinit = 0.0
+                        self.switch_to_motion(self.dance_change_face, motionType.dance_change_face, num=20)
+                        
+                    # self.switch_to_motion(self.amp_run, motionType.amp_run, num=20, with_cmd_vel=True)
                        
                 elif self.motion_y_changed == 1:
+                    # self.dance_flag += 1
+                    # if self.dance_flag > 1:
+                    #     self.dance_flag = 0
+                    # if self.motion_type == motionType.amp_walk:
+                    #     self.dance_flag = 1
+                    #     self.dance_lichenxi.timestep = self.dance_lichenxi.start_frame
+                    #     self.dance_lichenxi.timeinit = 0.0
+                    #     self.switch_to_motion(self.dance_lichenxi, motionType.dance_lichenxi, num=20)
+                        
                     self.dance_flag += 1
                     if self.dance_flag > 1:
                         self.dance_flag = 0
@@ -641,10 +677,15 @@ class BxiExample(Node):
                     # if self.dance_flag > 1:
                     #     self.dance_flag = 0
                     # if self.motion_type == motionType.amp_walk:
+                    
                     self.dance_flag = 1
                     self.dance_backflip.timestep = self.dance_backflip.start_frame
-                    # self.dance_backflip.timeinit = 0.0
+                    self.dance_backflip.timeinit = 0.0
                     self.switch_to_motion(self.dance_backflip, motionType.dance_backflip, num=20)
+                    
+                    # self.switch_to_motion(self.amp_run, motionType.amp_run, num=20, with_cmd_vel=True)
+                    
+                    
             
             else:
                 # 起身按键组合        
@@ -667,16 +708,16 @@ class BxiExample(Node):
                     
                 elif self.motion_y_changed == 1:
                     
-                    # self.dance_flag = 1
-                    # self.dance_fall_getup.start_frame = 900
-                    # self.dance_fall_getup.end_frame = 1350
-                    # self.dance_fall_getup.timestep = self.dance_fall_getup.start_frame
-                    # self.preheat_model(self.dance_fall_getup, num=20)
-                    # self.motion_type = motionType.dance_fall_getup
-                    
                     self.dance_flag = 1
-                    self.dance_sideflip.timestep = self.dance_sideflip.start_frame
-                    self.switch_to_motion(self.dance_sideflip, motionType.dance_sideflip, num=20)
+                    self.dance_fall_getup.start_frame = 900
+                    self.dance_fall_getup.end_frame = 1350
+                    self.dance_fall_getup.timestep = self.dance_fall_getup.start_frame
+                    self.preheat_model(self.dance_fall_getup, num=20)
+                    self.motion_type = motionType.dance_fall_getup
+                    
+                    # self.dance_flag = 1
+                    # self.dance_sideflip.timestep = self.dance_sideflip.start_frame
+                    # self.switch_to_motion(self.dance_sideflip, motionType.dance_sideflip, num=20)
                     
                     
                 elif self.motion_b_changed == 1:
@@ -913,6 +954,23 @@ class BxiExample(Node):
                 self.dance_jojo.timestep = self.dance_jojo.start_frame
                 # self.motion_type = motionType.dance_walk
                 
+        if self.motion_type == motionType.dance_change_face:
+            if self.dance_change_face.timestep <= self.dance_change_face.end_frame:
+                self.target_dof_pos = self.dance_change_face.inference_step(q, dq, quat, omega)
+                # 发布关节控制指令
+                self.send_to_motor(self.target_dof_pos, self.dance_change_face.kps, self.dance_change_face.kds)
+
+            # 动作管理    
+            if self.dance_flag==1:
+                # print("timestep:", self.dance_change_face.timestep)
+                self.dance_change_face.timestep += 1
+                
+            # 动作结束检测    
+            if self.dance_change_face.timestep > self.dance_change_face.end_frame:
+                print("Motion replay finished, resetting simulation.")
+                self.dance_change_face.timestep = self.dance_change_face.start_frame
+                # self.motion_type = motionType.dance_walk
+                
         if self.motion_type == motionType.dance_goodtime:
             if self.dance_goodtime.timestep <= self.dance_goodtime.end_frame:
                 self.target_dof_pos = self.dance_goodtime.inference_step(q, dq, quat, omega)
@@ -924,8 +982,8 @@ class BxiExample(Node):
                 
             # 动作结束检测    
             if self.dance_goodtime.timestep > self.dance_goodtime.end_frame:
-                print("Motion replay finished, resetting simulation.")
-                self.dance_goodtime.timestep = self.dance_goodtime.start_frame
+                # print("Motion replay finished, resetting simulation.")
+                self.dance_goodtime.timestep = self.dance_goodtime.end_frame
                 
         if self.motion_type == motionType.dance_backflip:
             if self.dance_backflip.timestep <= self.dance_backflip.end_frame:
