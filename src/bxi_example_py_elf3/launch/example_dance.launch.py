@@ -42,7 +42,8 @@ def generate_launch_description():
         
         "goodtime": "policy/dance_isaaclab/goodtime.npz",
         # "change_face": "policy/dance_isaaclab/change_face.npz",
-        "change_face": "policy/dance_isaaclab/change_face_hub.npz",
+        # "change_face": "policy/dance_isaaclab/change_face_hub.npz",
+        "change_face": "policy/dance_isaaclab/change_face_fine.npz",
         
     }  
     onnx_file_dict = {
@@ -71,7 +72,8 @@ def generate_launch_description():
         # isaaclab2
         # "change_face": "policy/dance_isaaclab/change_face_26k.onnx",
         # "change_face": "policy/dance_isaaclab/change_face_25k.onnx",
-        "change_face": "policy/dance_isaaclab/change_face_hub_16k.onnx",
+        # "change_face": "policy/dance_isaaclab/change_face_hub_16k.onnx",
+        "change_face": "policy/dance_isaaclab/change_face_fine.onnx",
         
         # isaaclab3
         "balei": "policy/dance_isaaclab/balei_17w.onnx",

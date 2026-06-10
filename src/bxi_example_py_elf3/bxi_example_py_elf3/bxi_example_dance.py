@@ -563,8 +563,8 @@ class BxiExample(Node):
             self.motion_y_prev = motion_y
             self.motion_b_prev = motion_b
             
-            # use_button1 = True
-            use_button1 =  False
+            use_button1 = True
+            # use_button1 =  False
             
             if use_button1: 
                 # 常用按键组合：A键切换amp_walk，X/Y/B键切换三个舞蹈动作
