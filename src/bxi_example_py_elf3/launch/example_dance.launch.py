@@ -9,7 +9,7 @@ import json
 def generate_launch_description():
 
     xml_file_name = "robot/elf3_lite/xml/elf3.xml"
-    # xml_file_name = "robot/elf3_lite/xml/elf3_from_urdf.xml"
+    # xml_file_name = "robot/elf3_lite/xml/elf3_old.xml"
     # xml_file_name = "robot/elf3_lite/xml/elf3_test.xml"
     # xml_file_name = "robot/elf3_lite/xml/elf3_test2.xml"
     xml_file = os.path.join(get_package_share_path("bxi_example_py_elf3"), xml_file_name)
@@ -19,7 +19,8 @@ def generate_launch_description():
         "jojo": "policy/dance_mjlab/jojo.npz",
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.npz",
         "ydd": "policy/dance_mjlab/ydd.npz",
-        "fall_getup": "policy/dance_mjlab/fall_getup.npz",
+        # "fall_getup": "policy/dance_mjlab/fall_getup.npz",
+        "fall_getup": "policy/dance_isaaclab/fall_getup.npz",
         # "goodtime": "policy/dance_mjlab/goodtime.npz",
         "webster": "policy/dance_mjlab/webster.npz",
         # "lichenxi": "policy/dance_mjlab/lichenxi.npz",
@@ -44,6 +45,9 @@ def generate_launch_description():
         # "change_face": "policy/dance_isaaclab/change_face.npz",
         # "change_face": "policy/dance_isaaclab/change_face_hub.npz",
         "change_face": "policy/dance_isaaclab/change_face_fine.npz",
+        "lie_down": "policy/dance_isaaclab/lie_down.npz",
+        # "face3": "policy/dance_isaaclab/face3.npz",
+        "face3": "policy/dance_isaaclab/face4.npz",
         
     }  
     onnx_file_dict = {
@@ -59,7 +63,10 @@ def generate_launch_description():
         "jojo": "policy/dance_mjlab/jojo.onnx",
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.onnx",
         "ydd": "policy/dance_mjlab/ydd.onnx",
-        "fall_getup": "policy/dance_mjlab/fall_getup.onnx",
+        # "fall_getup": "policy/dance_mjlab/fall_getup.onnx",
+        # "fall_getup": "policy/dance_isaaclab/fall_getup.onnx",
+        # "fall_getup": "policy/dance_isaaclab/fall_getup2.onnx",
+        "fall_getup": "policy/dance_isaaclab/fall_getup3.onnx",
         # "goodtime": "policy/dance_mjlab/goodtime.onnx",
         "webster": "policy/dance_mjlab/webster.onnx",
         # "lichenxi": "policy/dance_mjlab/lichenxi8.onnx",
@@ -73,7 +80,12 @@ def generate_launch_description():
         # "change_face": "policy/dance_isaaclab/change_face_26k.onnx",
         # "change_face": "policy/dance_isaaclab/change_face_25k.onnx",
         # "change_face": "policy/dance_isaaclab/change_face_hub_16k.onnx",
-        "change_face": "policy/dance_isaaclab/change_face_fine.onnx",
+        # "change_face": "policy/dance_isaaclab/change_face_fine.onnx",
+        "change_face": "policy/dance_isaaclab/change_face_fine_88k.onnx",
+        "lie_down": "policy/dance_isaaclab/lie_down.onnx",
+        # "face3": "policy/dance_isaaclab/face3new.onnx",
+        # "face3": "policy/dance_isaaclab/face4new.onnx",
+        "face3": "policy/dance_isaaclab/face4_force.onnx",
         
         # isaaclab3
         "balei": "policy/dance_isaaclab/balei_17w.onnx",
