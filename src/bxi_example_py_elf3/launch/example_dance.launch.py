@@ -27,7 +27,8 @@ def generate_launch_description():
         
         # isaaclab
         # "shuishou": "policy/dance_isaaclab/shuishou.npz",
-        "backflip": "policy/dance_isaaclab/backflip.npz",
+        # "backflip": "policy/dance_isaaclab/backflip.npz",
+        "backflip": "policy/dance_isaaclab/back_flip_16-15-45_35000.npz",
         "forwardflip": "policy/dance_isaaclab/forwardflip.npz",
         "sideflip": "policy/dance_isaaclab/sideflip.npz",
         # "balei": "policy/dance_isaaclab/balei.npz",
@@ -85,7 +86,9 @@ def generate_launch_description():
         "lie_down": "policy/dance_isaaclab/lie_down.onnx",
         # "face3": "policy/dance_isaaclab/face3new.onnx",
         # "face3": "policy/dance_isaaclab/face4new.onnx",
-        "face3": "policy/dance_isaaclab/face4_force.onnx",
+        # "face3": "policy/dance_isaaclab/face4_force.onnx",
+        "face3": "policy/dance_isaaclab/face4-1.onnx",
+        # "face3": "policy/dance_isaaclab/face4-2.onnx",
         
         # isaaclab3
         "balei": "policy/dance_isaaclab/balei_17w.onnx",
@@ -96,9 +99,11 @@ def generate_launch_description():
         "shuishou": "policy/dance_isaaclab/shuishou_16k.onnx",
         "guofuchen": "policy/dance_isaaclab/guofuchen_3w.onnx",
         "dingdongji": "policy/dance_isaaclab/dingdongji2.onnx",
-        "jixiewu": "policy/dance_isaaclab/jixiewu_33k.onnx",
+        # "jixiewu": "policy/dance_isaaclab/jixiewu_33k.onnx",
+        "jixiewu": "policy/dance_isaaclab/jixiewu.onnx",
         "lichenxi": "policy/dance_isaaclab/lichenxi_24k.onnx",
         "backflip": "policy/dance_isaaclab/backflip_6w.onnx",
+        # "backflip": "policy/dance_isaaclab/back_flip_16-15-45_35000.onnx",
         # "change_face": "policy/dance_isaaclab/change_face_12k.onnx",
         # "change_face": "policy/dance_isaaclab/change_face_21k.onnx",
     }

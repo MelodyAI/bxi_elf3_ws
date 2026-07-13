@@ -366,7 +366,8 @@ class BxiExample(Node):
         self.dance_jinwumen = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["jinwumen"], self.onnx_file_dict["jinwumen"], start_frame=10, fixed_pos=True)#fixed policy
         self.dance_shuishou = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["shuishou"], self.onnx_file_dict["shuishou"], start_frame=10, fixed_pos=True)#fixed policy
         self.dance_dingdongji = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["dingdongji"], self.onnx_file_dict["dingdongji"], start_frame=50, fixed_pos=True)#fixed policy
-        self.dance_jixiewu = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["jixiewu"], self.onnx_file_dict["jixiewu"], start_frame=150, fixed_pos=True)#fixed policy
+        # self.dance_jixiewu = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["jixiewu"], self.onnx_file_dict["jixiewu"], start_frame=150, fixed_pos=True)#fixed policy
+        self.dance_jixiewu = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["jixiewu"], self.onnx_file_dict["jixiewu"], start_frame=150, fixed_pos=True)#fixed policy
         self.dance_lichenxi = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=400, fixed_pos=True)#fixed policy
         # self.dance_lichenxi = DanceMotionPolicyGravity(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=300, fixed_pos=True)#fixed policy
         # self.dance_lichenxi = DanceMotionPolicyGravity(self.npz_file_dict["lichenxi"], self.onnx_file_dict["lichenxi"], start_frame=400, fixed_pos=True)#fixed policy
@@ -596,14 +597,14 @@ class BxiExample(Node):
                     #     self.dance_dingdongji.timeinit = 0.0
                     #     self.switch_to_motion(self.dance_dingdongji, motionType.dance_dingdongji, num=20)
                         
-                    self.dance_flag += 1
-                    if self.dance_flag > 1:
-                        self.dance_flag = 0
-                    if self.motion_type == motionType.amp_walk:
-                        self.dance_flag = 1
-                        self.dance_face3.timestep = self.dance_face3.start_frame
-                        self.dance_face3.timeinit = 0.0
-                        self.switch_to_motion(self.dance_face3, motionType.dance_face3, num=20)
+                    # self.dance_flag += 1
+                    # if self.dance_flag > 1:
+                    #     self.dance_flag = 0
+                    # if self.motion_type == motionType.amp_walk:
+                    #     self.dance_flag = 1
+                    #     self.dance_face3.timestep = self.dance_face3.start_frame
+                    #     self.dance_face3.timeinit = 0.0
+                    #     self.switch_to_motion(self.dance_face3, motionType.dance_face3, num=20)
                         
                     # self.dance_flag += 1
                     # if self.dance_flag > 1:
@@ -614,14 +615,14 @@ class BxiExample(Node):
                     #     self.dance_shuishou.timeinit = 0.0
                     #     self.switch_to_motion(self.dance_shuishou, motionType.dance_shuishou, num=20)
                         
-                    # self.dance_flag += 1
-                    # if self.dance_flag > 1:
-                    #     self.dance_flag = 0
-                    # if self.motion_type == motionType.amp_walk:
-                    #     self.dance_flag = 1
-                    #     self.dance_jixiewu.timestep = self.dance_jixiewu.start_frame
-                    #     self.dance_jixiewu.timeinit = 0.0
-                    #     self.switch_to_motion(self.dance_jixiewu, motionType.dance_jixiewu, num=20)
+                    self.dance_flag += 1
+                    if self.dance_flag > 1:
+                        self.dance_flag = 0
+                    if self.motion_type == motionType.amp_walk:
+                        self.dance_flag = 1
+                        self.dance_jixiewu.timestep = self.dance_jixiewu.start_frame
+                        self.dance_jixiewu.timeinit = 0.0
+                        self.switch_to_motion(self.dance_jixiewu, motionType.dance_jixiewu, num=20)
                     
                     # self.dance_flag += 1
                     # if self.dance_flag > 1:
