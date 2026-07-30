@@ -60,6 +60,7 @@ def generate_launch_description():
         # "amp_run": "policy/lyprun2.onnx",
         
         "host": "policy/elf3_ground.onnx",
+        "rgmt": "policy/rgmt.onnx",
         
         "jojo": "policy/dance_mjlab/jojo.onnx",
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.onnx",
@@ -100,8 +101,13 @@ def generate_launch_description():
         "guofuchen": "policy/dance_isaaclab/guofuchen_3w.onnx",
         "dingdongji": "policy/dance_isaaclab/dingdongji2.onnx",
         # "jixiewu": "policy/dance_isaaclab/jixiewu_33k.onnx",
-        "jixiewu": "policy/dance_isaaclab/jixiewu.onnx",
-        "lichenxi": "policy/dance_isaaclab/lichenxi_24k.onnx",
+        # "jixiewu": "policy/dance_isaaclab/jixiewu.onnx",
+        "jixiewu": "policy/dance_isaaclab/jixiewu2.onnx",
+        # "lichenxi": "policy/dance_isaaclab/lichenxi_24k.onnx",
+        # "lichenxi": "policy/dance_isaaclab/lichenxi.onnx",
+        # "lichenxi": "policy/dance_isaaclab/lichenxi2.onnx",
+        # "lichenxi": "policy/dance_isaaclab/lichenxi3.onnx",
+        "lichenxi": "policy/dance_isaaclab/lichenxi4.onnx",
         "backflip": "policy/dance_isaaclab/backflip_6w.onnx",
         # "backflip": "policy/dance_isaaclab/back_flip_16-15-45_35000.onnx",
         # "change_face": "policy/dance_isaaclab/change_face_12k.onnx",
