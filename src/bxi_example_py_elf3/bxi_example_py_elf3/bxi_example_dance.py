@@ -343,9 +343,17 @@ class BxiExample(Node):
         self.amp_walk = HumanoidGaitPolicyLite(self.onnx_file_dict["amp_walk"])
         
         self.rgmt = RgmtExternalReferencePolicy(
-            self.npz_file_dict["balei"],
+            # self.npz_file_dict["dance1_subject2"],
+            # self.npz_file_dict["guofuchen"],
+            # self.npz_file_dict["jinwumen"],
+            # self.npz_file_dict["shuishou"],
+            # self.npz_file_dict["jixiewu"],
+            self.npz_file_dict["lie_down"],
+            # self.npz_file_dict["fall_getup"],
+            # self.npz_file_dict["change_face"],
             self.onnx_file_dict["rgmt"],
             reference_yaw_mode="initial",  # 实机推荐
+            # reference_yaw_mode="continuous",  # 
         )
         
         # beyondmimic模型
@@ -995,7 +1003,8 @@ class BxiExample(Node):
             # 动作结束检测    
             if self.rgmt.timestep > self.rgmt.end_frame:
                 print("Motion replay finished, resetting simulation.")
-                self.rgmt.timestep = self.rgmt.start_frame
+                # self.rgmt.timestep = self.rgmt.start_frame
+                self.rgmt.timestep = self.rgmt.end_frame
                 # self.motion_type = motionType.dance_walk
         
         
