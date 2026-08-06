@@ -60,8 +60,10 @@ def generate_launch_description():
         # "amp_run": "policy/lyprun2.onnx",
         
         "host": "policy/elf3_ground.onnx",
-        # "rgmt": "policy/rgmt.onnx",
-        "rgmt": "policy/rgmt_82800.onnx",
+        # "rgmt": "policy/rgmt_82800.onnx",
+        # "rgmt": "policy/rgmt_111800.onnx",  #great
+        # "rgmt": "policy/rgmt_145800.onnx",
+        "rgmt": "policy/rgmt2_18400.onnx",
         
         "jojo": "policy/dance_mjlab/jojo.onnx",
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.onnx",

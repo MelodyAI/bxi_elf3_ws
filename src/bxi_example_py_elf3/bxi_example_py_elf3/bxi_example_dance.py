@@ -345,15 +345,15 @@ class BxiExample(Node):
         self.rgmt = RgmtExternalReferencePolicy(
             # self.npz_file_dict["dance1_subject2"],
             # self.npz_file_dict["guofuchen"],
-            # self.npz_file_dict["jinwumen"],
+            self.npz_file_dict["jinwumen"],
             # self.npz_file_dict["shuishou"],
             # self.npz_file_dict["jixiewu"],
-            self.npz_file_dict["lie_down"],
+            # self.npz_file_dict["lie_down"],
             # self.npz_file_dict["fall_getup"],
             # self.npz_file_dict["change_face"],
             self.onnx_file_dict["rgmt"],
-            reference_yaw_mode="initial",  # 实机推荐
-            # reference_yaw_mode="continuous",  # 
+            # reference_yaw_mode="initial",  # 实机推荐
+            reference_yaw_mode="continuous",  # 
         )
         
         # beyondmimic模型
@@ -990,22 +990,16 @@ class BxiExample(Node):
     def _run_motion_dispatch(self, q, dq, quat, omega, cmd_vel):
         """运行当前 self.motion_type 对应的推理分支（输出会经 send_to_motor 发布/捕获）。"""
         if self.motion_type == motionType.rgmt:
-            if self.rgmt.timestep <= self.rgmt.end_frame:
-                self.target_dof_pos = self.rgmt.inference_step(q, dq, quat, omega)
-                # 发布关节控制指令
-                self.send_to_motor(self.target_dof_pos, self.rgmt.kps, self.rgmt.kds)
-
-            # 动作管理    
-            if self.dance_flag==1:
-                # print("timestep:", self.rgmt.timestep)
-                self.rgmt.timestep += 1
-                
-            # 动作结束检测    
-            if self.rgmt.timestep > self.rgmt.end_frame:
-                print("Motion replay finished, resetting simulation.")
-                # self.rgmt.timestep = self.rgmt.start_frame
-                self.rgmt.timestep = self.rgmt.end_frame
-                # self.motion_type = motionType.dance_walk
+            self.target_dof_pos = self.rgmt.inference_step(
+                q,
+                dq,
+                quat,
+                omega,
+                advance=self.dance_flag == 1,
+            )
+            # inference_step 会将 timestep 饱和在 end_frame。到达末帧后继续
+            # 运行策略以保留 proprio/action 历史，不再 end+1 -> end 回退。
+            self.send_to_motor(self.target_dof_pos, self.rgmt.kps, self.rgmt.kds)
         
         
         if self.motion_type == motionType.dance_face3:
