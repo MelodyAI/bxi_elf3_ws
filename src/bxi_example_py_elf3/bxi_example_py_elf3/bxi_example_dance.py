@@ -142,6 +142,7 @@ class motionType:
     dance_face4 = 28   
     dance_face5 = 29   
     dance_face6 = 30   
+    dance_lmm = 31   
 
 class BxiExample(Node):
     
@@ -345,15 +346,17 @@ class BxiExample(Node):
         self.rgmt = RgmtExternalReferencePolicy(
             # self.npz_file_dict["dance1_subject2"],
             # self.npz_file_dict["guofuchen"],
-            self.npz_file_dict["jinwumen"],
+            # self.npz_file_dict["jinwumen"],
             # self.npz_file_dict["shuishou"],
             # self.npz_file_dict["jixiewu"],
             # self.npz_file_dict["lie_down"],
             # self.npz_file_dict["fall_getup"],
             # self.npz_file_dict["change_face"],
+            # self.npz_file_dict["lafan1"],
+            self.npz_file_dict["lmm"],
             self.onnx_file_dict["rgmt"],
-            # reference_yaw_mode="initial",  # 实机推荐
-            reference_yaw_mode="continuous",  # 
+            reference_yaw_mode="initial",  # 实机推荐
+            # reference_yaw_mode="continuous",  #           
         )
         
         # beyondmimic模型
@@ -372,6 +375,7 @@ class BxiExample(Node):
         self.dance_sideflip = DanceMotionPolicyGravityIsaaclab(self.npz_file_dict["sideflip"], self.onnx_file_dict["sideflip"], start_frame=150)#fixed policy
         self.dance_change_face = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["change_face"], self.onnx_file_dict["change_face"], start_frame=10, fixed_pos=True)#fixed policy
         self.dance_face3 = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["face3"], self.onnx_file_dict["face3"], start_frame=10, fixed_pos=True)#fixed policy
+        self.dance_lmm = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["lmm"], self.onnx_file_dict["lmm"], start_frame=10, fixed_pos=True)#fixed policy
         # self.dance_change_face = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["change_face"], self.onnx_file_dict["change_face"], start_frame=10, fixed_pos=True)#fixed policy
         
         # self.dance_shuishou = DanceMotionPolicy(self.npz_file_dict["shuishou"], self.onnx_file_dict["shuishou"], start_frame=10, fixed_pos=True)#fixed policy
@@ -675,9 +679,18 @@ class BxiExample(Node):
                         self.dance_flag = 0
                     if self.motion_type == motionType.amp_walk:
                         self.dance_flag = 1
-                        self.dance_lichenxi.timestep = self.dance_lichenxi.start_frame
-                        self.dance_lichenxi.timeinit = 0.0
-                        self.switch_to_motion(self.dance_lichenxi, motionType.dance_lichenxi, num=20)
+                        self.dance_lmm.timestep = self.dance_lmm.start_frame
+                        self.dance_lmm.timeinit = 0.0
+                        self.switch_to_motion(self.dance_lmm, motionType.dance_lmm, num=20)
+                        
+                    # self.dance_flag += 1
+                    # if self.dance_flag > 1:
+                    #     self.dance_flag = 0
+                    # if self.motion_type == motionType.amp_walk:
+                    #     self.dance_flag = 1
+                    #     self.dance_lichenxi.timestep = self.dance_lichenxi.start_frame
+                    #     self.dance_lichenxi.timeinit = 0.0
+                    #     self.switch_to_motion(self.dance_lichenxi, motionType.dance_lichenxi, num=20)
                         
                     # self.dance_flag += 1
                     # if self.dance_flag > 1:
@@ -1017,6 +1030,23 @@ class BxiExample(Node):
             if self.dance_face3.timestep > self.dance_face3.end_frame:
                 print("Motion replay finished, resetting simulation.")
                 self.dance_face3.timestep = self.dance_face3.start_frame
+                # self.motion_type = motionType.dance_walk
+                
+        if self.motion_type == motionType.dance_lmm:
+            if self.dance_lmm.timestep <= self.dance_lmm.end_frame:
+                self.target_dof_pos = self.dance_lmm.inference_step(q, dq, quat, omega)
+                # 发布关节控制指令
+                self.send_to_motor(self.target_dof_pos, self.dance_lmm.kps, self.dance_lmm.kds)
+
+            # 动作管理    
+            if self.dance_flag==1:
+                # print("timestep:", self.dance_lmm.timestep)
+                self.dance_lmm.timestep += 1
+                
+            # 动作结束检测    
+            if self.dance_lmm.timestep > self.dance_lmm.end_frame:
+                print("Motion replay finished, resetting simulation.")
+                self.dance_lmm.timestep = self.dance_lmm.start_frame
                 # self.motion_type = motionType.dance_walk
         
         if self.motion_type == motionType.dance_jojo:

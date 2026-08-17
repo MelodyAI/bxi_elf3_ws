@@ -43,6 +43,16 @@ def generate_launch_description():
         "lie_down": "policy/dance_isaaclab/lie_down.npz",
         # "face3": "policy/dance_isaaclab/face3.npz",
         "face3": "policy/dance_isaaclab/face4.npz",
+        "zj": "policy/dance_isaaclab/zhangjie2.npz",
+        # "lmm": "policy/dance_isaaclab/linmeimei.npz",
+        # "lmm": "policy/dance_isaaclab/linmeimei2.npz",
+        "lmm": "policy/dance_isaaclab/lmm.npz",
+        # "lmm": "policy/dance_isaaclab/linmeimei_orin.npz",
+        
+        # "lafan1": "policy/lafan1_npz/fight1_subject2.npz",
+        # "lafan1": "policy/lafan1_npz/walk1_subject2.npz",
+        # "lafan1": "policy/lafan1_npz/run1_subject2.npz",
+        "lafan1": "policy/lafan1_npz/fallAndGetUp3_subject1.npz",
         
     }  
     onnx_file_dict = {
@@ -54,8 +64,14 @@ def generate_launch_description():
         # "amp_run": "policy/lyprun2.onnx",
         
         "host": "policy/elf3_ground.onnx",
-        # "rgmt": "policy/rgmt.onnx",
-        "rgmt": "policy/rgmt_82800.onnx",
+        # "rgmt": "policy/rgmt_82800.onnx",
+        "rgmt": "policy/rgmt_111800.onnx",  #great
+        # "rgmt": "policy/rgmt_145800.onnx",
+        # "rgmt": "policy/rgmt_199800.onnx",
+        # "rgmt": "policy/rgmt_199999.onnx",
+        # "rgmt": "policy/rgmt2_18400.onnx",
+        # "rgmt": "policy/rgmt2_9600.onnx",
+        # "rgmt": "policy/rgmt2.onnx",
         
         "jojo": "policy/dance_mjlab/jojo.onnx",
         "walk1_subject1": "policy/dance_mjlab/walk1_subject1.onnx",
@@ -80,6 +96,9 @@ def generate_launch_description():
         # "change_face": "policy/dance_isaaclab/change_face_fine.onnx",
         "change_face": "policy/dance_isaaclab/change_face_fine_88k.onnx",
         "lie_down": "policy/dance_isaaclab/lie_down.onnx",
+        # "lmm": "policy/dance_isaaclab/lmm.onnx",
+        # "lmm": "policy/dance_isaaclab/lmm_8200.onnx",
+        "lmm": "policy/dance_isaaclab/lmm_9600.onnx",
         # "face3": "policy/dance_isaaclab/face3new.onnx",
         # "face3": "policy/dance_isaaclab/face4new.onnx",
         # "face3": "policy/dance_isaaclab/face4_force.onnx",
