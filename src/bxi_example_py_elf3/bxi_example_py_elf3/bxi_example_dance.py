@@ -28,7 +28,7 @@ import numpy as np
 from threading import Lock
 from collections import deque
 
-from bxi_example_py_elf3.models.rgmt import RgmtExternalReferencePolicy
+from bxi_example_py_elf3.models.rgmt2 import RgmtExternalReferencePolicy
 from bxi_example_py_elf3.models.beyondmimic import DanceMotionPolicy, DanceMotionPolicyGravity, DanceMotionPolicyGravityIsaaclab, DanceMotionPolicyGravityIsaaclabV2, DanceMotionPolicyGravityIsaaclabV3
 from bxi_example_py_elf3.models.host import TumbleRecoverPolicy
 from bxi_example_py_elf3.models.amp import HumanoidGaitPolicy , HumanoidGaitPolicyLite
@@ -143,6 +143,7 @@ class motionType:
     dance_face5 = 29   
     dance_face6 = 30   
     dance_lmm = 31   
+    dance_zj = 32   
 
 class BxiExample(Node):
     
@@ -349,11 +350,11 @@ class BxiExample(Node):
             # self.npz_file_dict["jinwumen"],
             # self.npz_file_dict["shuishou"],
             # self.npz_file_dict["jixiewu"],
-            # self.npz_file_dict["lie_down"],
+            self.npz_file_dict["lie_down"],
             # self.npz_file_dict["fall_getup"],
             # self.npz_file_dict["change_face"],
             # self.npz_file_dict["lafan1"],
-            self.npz_file_dict["lmm"],
+            # self.npz_file_dict["lmm"],
             self.onnx_file_dict["rgmt"],
             reference_yaw_mode="initial",  # 实机推荐
             # reference_yaw_mode="continuous",  #           
@@ -375,7 +376,8 @@ class BxiExample(Node):
         self.dance_sideflip = DanceMotionPolicyGravityIsaaclab(self.npz_file_dict["sideflip"], self.onnx_file_dict["sideflip"], start_frame=150)#fixed policy
         self.dance_change_face = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["change_face"], self.onnx_file_dict["change_face"], start_frame=10, fixed_pos=True)#fixed policy
         self.dance_face3 = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["face3"], self.onnx_file_dict["face3"], start_frame=10, fixed_pos=True)#fixed policy
-        self.dance_lmm = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["lmm"], self.onnx_file_dict["lmm"], start_frame=10, fixed_pos=True)#fixed policy
+        self.dance_lmm = DanceMotionPolicyGravityIsaaclabV2(self.npz_file_dict["lmm"], self.onnx_file_dict["lmm"], start_frame=10, fixed_pos=True)#fixed policy
+        self.dance_zj = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["zj"], self.onnx_file_dict["zj"], start_frame=10, fixed_pos=True)#fixed policy
         # self.dance_change_face = DanceMotionPolicyGravityIsaaclabV3(self.npz_file_dict["change_face"], self.onnx_file_dict["change_face"], start_frame=10, fixed_pos=True)#fixed policy
         
         # self.dance_shuishou = DanceMotionPolicy(self.npz_file_dict["shuishou"], self.onnx_file_dict["shuishou"], start_frame=10, fixed_pos=True)#fixed policy
@@ -643,6 +645,15 @@ class BxiExample(Node):
                     #     self.dance_jixiewu.timestep = self.dance_jixiewu.start_frame
                     #     self.dance_jixiewu.timeinit = 0.0
                     #     self.switch_to_motion(self.dance_jixiewu, motionType.dance_jixiewu, num=20)
+                    
+                    # self.dance_flag += 1
+                    # if self.dance_flag > 1:
+                    #     self.dance_flag = 0
+                    # if self.motion_type == motionType.amp_walk:
+                    #     self.dance_flag = 1
+                    #     self.dance_zj.timestep = self.dance_zj.start_frame
+                    #     self.dance_zj.timeinit = 0.0
+                    #     self.switch_to_motion(self.dance_zj, motionType.dance_zj, num=20)
                         
                     self.dance_flag += 1
                     if self.dance_flag > 1:
@@ -1047,6 +1058,23 @@ class BxiExample(Node):
             if self.dance_lmm.timestep > self.dance_lmm.end_frame:
                 print("Motion replay finished, resetting simulation.")
                 self.dance_lmm.timestep = self.dance_lmm.start_frame
+                # self.motion_type = motionType.dance_walk
+        
+        if self.motion_type == motionType.dance_zj:
+            if self.dance_zj.timestep <= self.dance_zj.end_frame:
+                self.target_dof_pos = self.dance_zj.inference_step(q, dq, quat, omega)
+                # 发布关节控制指令
+                self.send_to_motor(self.target_dof_pos, self.dance_zj.kps, self.dance_zj.kds)
+
+            # 动作管理    
+            if self.dance_flag==1:
+                # print("timestep:", self.dance_lmm.timestep)
+                self.dance_zj.timestep += 1
+                
+            # 动作结束检测    
+            if self.dance_zj.timestep > self.dance_zj.end_frame:
+                print("Motion replay finished, resetting simulation.")
+                self.dance_zj.timestep = self.dance_zj.start_frame
                 # self.motion_type = motionType.dance_walk
         
         if self.motion_type == motionType.dance_jojo:
